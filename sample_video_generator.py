@@ -167,13 +167,72 @@ def load_route_base_frame(route_id: str, width: int = 1280, height: int = 720) -
     return create_synthetic_urban_road_frame(width, height)
 
 
+def load_pothole_texture_photo(assets_dir: str) -> np.ndarray:
+    """Loads realistic pothole asphalt texture photo from local assets, root dir, URL, or generates synthetic crater."""
+    clean_name = "real_pothole_texture.jpg"
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    candidate_paths = [
+        os.path.join(assets_dir, clean_name),
+        os.path.join(base_dir, "assets", clean_name),
+        os.path.join(os.getcwd(), "assets", clean_name),
+        os.path.join("assets", clean_name),
+        os.path.join(base_dir, clean_name),
+        os.path.join(os.getcwd(), clean_name),
+        clean_name
+    ]
+    for p in candidate_paths:
+        if os.path.exists(p) and os.path.isfile(p):
+            try:
+                img = cv2.imread(p)
+                if img is not None and img.size > 0:
+                    return img
+            except Exception:
+                pass
+
+    search_dirs = [assets_dir, os.path.join(base_dir, "assets"), os.path.join(os.getcwd(), "assets"), "assets", base_dir, os.getcwd()]
+    for adir in search_dirs:
+        if os.path.exists(adir) and os.path.isdir(adir):
+            try:
+                for existing_file in os.listdir(adir):
+                    if existing_file.lower() == clean_name.lower():
+                        full_p = os.path.join(adir, existing_file)
+                        if os.path.exists(full_p) and os.path.isfile(full_p):
+                            img = cv2.imread(full_p)
+                            if img is not None and img.size > 0:
+                                return img
+            except Exception:
+                pass
+
+    url = "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=400&q=80"
+    try:
+        import urllib.request
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=4.0) as resp:
+            arr = np.asarray(bytearray(resp.read()), dtype=np.uint8)
+            img = cv2.imdecode(arr, cv2.IMREAD_COLOR)
+            if img is not None and img.size > 0:
+                return img
+    except Exception:
+        pass
+
+    # Synthetic High-Contrast Asphalt Pothole Texture (Dark Pit + Gravel Texture + Cracks)
+    tex = np.ones((120, 240, 3), dtype=np.uint8) * 65
+    cv2.ellipse(tex, (120, 60), (95, 45), 0, 0, 360, (25, 25, 25), -1)
+    np.random.seed(42)
+    noise = np.random.randint(-18, 18, (120, 240, 3), dtype=np.int16)
+    tex = np.clip(tex.astype(np.int16) + noise, 0, 255).astype(np.uint8)
+    cv2.polylines(tex, [np.array([[20, 60], [60, 50], [100, 65], [160, 55], [210, 60]], dtype=np.int32)], False, (15, 15, 15), 2)
+    cv2.polylines(tex, [np.array([[120, 15], [115, 45], [125, 80], [110, 105]], dtype=np.int32)], False, (15, 15, 15), 2)
+    return tex
+
+
 def generate_sample_vizag_video(output_path: str, route_id: str = "ROUTE-101", fps: int = 20, duration_sec: int = 5):
     """
     Generates a route-specific 720p bus dashcam video across EXACTLY 100 FRAMES (5s @ 20fps)
     with 100% PERFECT PIXEL-LOCKED AI detection bounding boxes.
     """
     assets_dir = os.path.join(os.path.dirname(__file__), "assets")
-    pothole_texture_path = os.path.join(assets_dir, "real_pothole_texture.jpg")
 
     width, height = 1280, 720
     total_frames = 100  # Exactly 100 frames
@@ -181,8 +240,8 @@ def generate_sample_vizag_video(output_path: str, route_id: str = "ROUTE-101", f
     # Load route-specific base vehicle camera image dynamically
     base_frame = load_route_base_frame(route_id, width, height)
 
-    # Load real photographic pothole texture
-    pothole_photo = cv2.imread(pothole_texture_path) if os.path.exists(pothole_texture_path) else None
+    # Load real photographic pothole texture reliably across all environments
+    pothole_photo = load_pothole_texture_photo(assets_dir)
 
     # Use mp4v codec
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
