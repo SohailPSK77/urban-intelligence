@@ -18,6 +18,7 @@ def get_asset_path(filename: str) -> str:
     
     # Old Unsplash photo IDs mapping to domain-accurate urban transit/hazard URLs
     old_url_map = {
+        "photo-1519692933481-e162a57d6721": "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80",  # City Traffic / ANPR Incident
         "photo-1509099836639-18ba1795216d": "https://images.unsplash.com/photo-1477959858617-67f30ac4ce78?auto=format&fit=crop&w=800&q=80",  # Pedestrian Crosswalk
         "photo-1549399542-7e3f8b79c341": "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80",  # City Sedan Car
         "photo-1570125909232-eb263c188f7e": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80",  # Red City Bus
@@ -25,6 +26,7 @@ def get_asset_path(filename: str) -> str:
         "photo-1517649763962-0c623266010b": "https://images.unsplash.com/photo-1477959858617-67f30ac4ce78?auto=format&fit=crop&w=800&q=80",  # MVP Colony Market
         "photo-1542314831-068cd1dbfeeb": "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80",  # City Junction
         "photo-1532996122724-e3c354a0b15b": "https://images.unsplash.com/photo-1530587191325-3db32d826c18?auto=format&fit=crop&w=800&q=80",  # Waste Bins
+        "photo-1541899481282-d53bffe3c35d": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80",  # Rash Driving Car
     }
     
     if raw_str.startswith("http://") or raw_str.startswith("https://"):
@@ -277,10 +279,7 @@ def render_anpr_incidents(raw_events: list):
 
         # Resolve evidence image path
         img_ref = evt.get("evidence_reference", "")
-        if isinstance(img_ref, str) and not img_ref.startswith("http"):
-            img_path = get_asset_path(os.path.basename(img_ref))
-        else:
-            img_path = img_ref
+        img_path = get_asset_path(img_ref)
 
         # Card Container
         with st.container():
