@@ -7,8 +7,9 @@ import streamlit as st
 import os
 import sys
 
-# Ensure current directory is in Python path for Streamlit Cloud deployment
+# Ensure current directory and components directory are in Python path for Streamlit Cloud deployment
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "components"))
 
 # Set Streamlit Page Config MUST be the first streamlit call
 st.set_page_config(
@@ -29,9 +30,9 @@ from config import ROUTES, SIMULATION_LABEL, CITY_NAME
 from data_simulator import generate_bus_fleet, generate_raw_ai_events
 from fusion_engine import MultiBusFusionEngine
 from central_api import start_local_central_api
-from components.login import render_login_screen
 
 try:
+    from components.login import render_login_screen
     from components.header import render_header
     from components.gis_map import render_gis_map
     from components.video_analytics import render_video_analytics
@@ -41,6 +42,7 @@ try:
     from components.event_table import render_event_table
     from components.edge_sensing_pipeline import render_edge_sensing_pipeline
 except ModuleNotFoundError:
+    from login import render_login_screen
     from header import render_header
     from gis_map import render_gis_map
     from video_analytics import render_video_analytics
