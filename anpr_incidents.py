@@ -10,17 +10,36 @@ import pandas as pd
 
 
 def get_asset_path(filename: str) -> str:
-    """Helper to locate asset files dynamically across workspace environments."""
+    """Helper to locate asset files dynamically across workspace environments with URL fallback."""
+    if not filename:
+        return "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=600&q=80"
+    if str(filename).startswith("http://") or str(filename).startswith("https://"):
+        return filename
+
+    clean_name = os.path.basename(str(filename))
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     candidate_paths = [
-        os.path.join(base_dir, "assets", filename),
-        os.path.join(os.getcwd(), "assets", filename),
-        filename
+        os.path.join(base_dir, "assets", clean_name),
+        os.path.join(os.getcwd(), "assets", clean_name),
+        os.path.join("assets", clean_name),
+        clean_name
     ]
     for path in candidate_paths:
         if os.path.exists(path):
             return path
-    return filename
+
+    fallback_urls = {
+        "vizag_bus_front.jpg": "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=600&q=80",
+        "pothole_road_vizag.jpg": "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=600&q=80",
+        "rash_driving_car.jpg": "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=600&q=80",
+        "anpr_rash_driving_ap39.jpg": "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=600&q=80",
+        "anpr_hit_run_ap31.jpg": "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=600&q=80",
+        "route_101_rk_beach.jpg": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80",
+        "route_202_nad_flyover.jpg": "https://images.unsplash.com/photo-1519692933481-e162a57d6721?auto=format&fit=crop&w=600&q=80",
+        "route_303_rushikonda_it.jpg": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80",
+        "route_404_mvp_colony.jpg": "https://images.unsplash.com/photo-1517649763962-0c623266010b?auto=format&fit=crop&w=600&q=80"
+    }
+    return fallback_urls.get(clean_name, "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=600&q=80")
 
 
 def render_anpr_incidents(raw_events: list):

@@ -11,9 +11,9 @@ from config import ROUTES, ACTIVE_BUS_COUNT
 
 # Asset paths for vehicle & hazard evidence images
 ASSETS_DIR = os.path.join(os.path.dirname(__file__), "assets")
-IMG_BUS_FRONT = os.path.join(ASSETS_DIR, "vizag_bus_front.jpg")
-IMG_RASH_CAR = os.path.join(ASSETS_DIR, "rash_driving_car.jpg")
-IMG_POTHOLE = os.path.join(ASSETS_DIR, "pothole_road_vizag.jpg")
+IMG_BUS_FRONT = os.path.join(ASSETS_DIR, "vizag_bus_front.jpg") if os.path.exists(os.path.join(ASSETS_DIR, "vizag_bus_front.jpg")) else "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=600&q=80"
+IMG_RASH_CAR = os.path.join(ASSETS_DIR, "rash_driving_car.jpg") if os.path.exists(os.path.join(ASSETS_DIR, "rash_driving_car.jpg")) else "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=600&q=80"
+IMG_POTHOLE = os.path.join(ASSETS_DIR, "pothole_road_vizag.jpg") if os.path.exists(os.path.join(ASSETS_DIR, "pothole_road_vizag.jpg")) else "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=600&q=80"
 
 
 def generate_bus_fleet() -> list[dict]:
