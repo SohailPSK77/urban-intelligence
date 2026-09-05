@@ -54,28 +54,132 @@ def overlay_hazard_texture_photo(frame: np.ndarray, texture_img: np.ndarray, x: 
     frame[y:y+h, x:x+w] = np.clip(blended, 0, 255).astype(np.uint8)
 
 
+def create_synthetic_urban_road_frame(width: int = 1280, height: int = 720) -> np.ndarray:
+    """Generates a realistic urban transit road background with sky, horizon, asphalt road, and lane markings."""
+    frame = np.zeros((height, width, 3), dtype=np.uint8)
+    
+    # 1. Sky Gradient (Top 45% of frame)
+    horizon_y = int(height * 0.45)
+    for y in range(horizon_y):
+        ratio = y / horizon_y
+        b = int(180 * (1 - ratio) + 90 * ratio)
+        g = int(130 * (1 - ratio) + 60 * ratio)
+        r = int(70 * (1 - ratio) + 30 * ratio)
+        frame[y, :] = (b, g, r)
+
+    # 2. City Skyline / Tree Silhouette along Horizon
+    cv2.rectangle(frame, (0, horizon_y - 35), (width, horizon_y), (45, 55, 65), -1)
+    for x_pos in range(50, width, 120):
+        cv2.rectangle(frame, (x_pos, horizon_y - 65), (x_pos + 45, horizon_y), (35, 45, 55), -1)
+        cv2.circle(frame, (x_pos + 80, horizon_y - 20), 25, (25, 65, 35), -1)
+
+    # 3. Asphalt Road Surface (Bottom 55% of frame)
+    for y in range(horizon_y, height):
+        ratio = (y - horizon_y) / (height - horizon_y)
+        shade = int(55 + 25 * ratio)
+        frame[y, :] = (shade, shade, shade + 5)
+
+    # 4. Perspective Yellow Left Curb Line
+    cv2.line(frame, (100, height), (int(width * 0.35), horizon_y), (0, 215, 255), 4)
+
+    # 5. Perspective White Dashed Center Lane Marking
+    for i in range(6):
+        start_y = int(horizon_y + i * 45)
+        end_y = int(start_y + 25)
+        if end_y < height:
+            t1 = (start_y - horizon_y) / (height - horizon_y)
+            t2 = (end_y - horizon_y) / (height - horizon_y)
+            x1 = int(width * 0.5 + (width * 0.15) * t1)
+            x2 = int(width * 0.5 + (width * 0.15) * t2)
+            cv2.line(frame, (x1, start_y), (x2, end_y), (240, 240, 240), 5)
+
+    # 6. Perspective White Right Shoulder Line
+    cv2.line(frame, (width - 100, height), (int(width * 0.65), horizon_y), (240, 240, 240), 4)
+
+    return frame
+
+
+def load_route_base_frame(route_id: str, width: int = 1280, height: int = 720) -> np.ndarray:
+    """
+    Locates and loads route background image from local assets/root directory or URL fallback.
+    If unavailable, builds a photorealistic synthetic urban transit road background.
+    """
+    image_filename = ROUTE_IMAGES.get(route_id, "route_101_vizag_real.jpg")
+    clean_name = os.path.basename(image_filename)
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    candidate_paths = [
+        os.path.join(base_dir, "assets", clean_name),
+        os.path.join(os.getcwd(), "assets", clean_name),
+        os.path.join("assets", clean_name),
+        os.path.join(base_dir, clean_name),
+        os.path.join(os.getcwd(), clean_name),
+        clean_name
+    ]
+    for p in candidate_paths:
+        if os.path.exists(p) and os.path.isfile(p):
+            try:
+                img = cv2.imread(p)
+                if img is not None and img.size > 0:
+                    return cv2.resize(img, (width, height))
+            except Exception:
+                pass
+
+    search_dirs = [
+        os.path.join(base_dir, "assets"),
+        os.path.join(os.getcwd(), "assets"),
+        "assets",
+        base_dir,
+        os.getcwd()
+    ]
+    clean_lower = clean_name.lower()
+    for adir in search_dirs:
+        if os.path.exists(adir) and os.path.isdir(adir):
+            try:
+                for existing_file in os.listdir(adir):
+                    if existing_file.lower() == clean_lower:
+                        full_p = os.path.join(adir, existing_file)
+                        if os.path.exists(full_p) and os.path.isfile(full_p):
+                            img = cv2.imread(full_p)
+                            if img is not None and img.size > 0:
+                                return cv2.resize(img, (width, height))
+            except Exception:
+                pass
+
+    route_urls = {
+        "ROUTE-101": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1280&q=80",
+        "ROUTE-202": "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=1280&q=80",
+        "ROUTE-303": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1280&q=80",
+        "ROUTE-404": "https://images.unsplash.com/photo-1477959858617-67f30ac4ce78?auto=format&fit=crop&w=1280&q=80",
+    }
+    target_url = route_urls.get(route_id, route_urls["ROUTE-101"])
+    try:
+        import urllib.request
+        req = urllib.request.Request(target_url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=4.0) as resp:
+            arr = np.asarray(bytearray(resp.read()), dtype=np.uint8)
+            img = cv2.imdecode(arr, cv2.IMREAD_COLOR)
+            if img is not None and img.size > 0:
+                return cv2.resize(img, (width, height))
+    except Exception:
+        pass
+
+    return create_synthetic_urban_road_frame(width, height)
+
+
 def generate_sample_vizag_video(output_path: str, route_id: str = "ROUTE-101", fps: int = 20, duration_sec: int = 5):
     """
     Generates a route-specific 720p bus dashcam video across EXACTLY 100 FRAMES (5s @ 20fps)
     with 100% PERFECT PIXEL-LOCKED AI detection bounding boxes.
     """
     assets_dir = os.path.join(os.path.dirname(__file__), "assets")
-    image_filename = ROUTE_IMAGES.get(route_id, "route_101_vizag_real.jpg")
-    base_img_path = os.path.join(assets_dir, image_filename)
     pothole_texture_path = os.path.join(assets_dir, "real_pothole_texture.jpg")
 
     width, height = 1280, 720
     total_frames = 100  # Exactly 100 frames
 
-    # Load route-specific base vehicle camera image
-    if os.path.exists(base_img_path):
-        base_frame = cv2.imread(base_img_path)
-        if base_frame is not None:
-            base_frame = cv2.resize(base_frame, (width, height))
-        else:
-            base_frame = np.zeros((height, width, 3), dtype=np.uint8)
-    else:
-        base_frame = np.zeros((height, width, 3), dtype=np.uint8)
+    # Load route-specific base vehicle camera image dynamically
+    base_frame = load_route_base_frame(route_id, width, height)
 
     # Load real photographic pothole texture
     pothole_photo = cv2.imread(pothole_texture_path) if os.path.exists(pothole_texture_path) else None
