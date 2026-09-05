@@ -28,19 +28,10 @@ def get_asset_path(filename: str) -> str:
         "photo-1532996122724-e3c354a0b15b": "https://images.unsplash.com/photo-1530587191325-3db32d826c18?auto=format&fit=crop&w=800&q=80",  # Waste Bins
         "photo-1541899481282-d53bffe3c35d": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80",  # Rash Driving Car
     }
-    
-    if raw_str.startswith("http://") or raw_str.startswith("https://"):
-        for old_id, new_url in old_url_map.items():
-            if old_id in raw_str:
-                return new_url
-        return raw_str
 
     clean_name = os.path.basename(raw_str)
-    
-    if os.path.exists(raw_str) and os.path.isfile(raw_str):
-        return raw_str
-
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    
     candidate_paths = [
         os.path.join(base_dir, "assets", clean_name),
         os.path.join(os.getcwd(), "assets", clean_name),
@@ -53,14 +44,16 @@ def get_asset_path(filename: str) -> str:
         if os.path.exists(path) and os.path.isfile(path):
             return path
 
-    # Case-insensitive search inside assets/ directory for Linux / Streamlit Cloud
-    assets_dirs = [
+    # Case-insensitive search inside assets/ and root directories for Linux / Streamlit Cloud
+    search_dirs = [
         os.path.join(base_dir, "assets"),
         os.path.join(os.getcwd(), "assets"),
-        "assets"
+        "assets",
+        base_dir,
+        os.getcwd()
     ]
     clean_lower = clean_name.lower()
-    for adir in assets_dirs:
+    for adir in search_dirs:
         if os.path.exists(adir) and os.path.isdir(adir):
             try:
                 for existing_file in os.listdir(adir):
@@ -71,17 +64,23 @@ def get_asset_path(filename: str) -> str:
             except Exception:
                 pass
 
+    if raw_str.startswith("http://") or raw_str.startswith("https://"):
+        for old_id, new_url in old_url_map.items():
+            if old_id in raw_str:
+                return new_url
+        return raw_str
+
     fallback_urls = {
         "vizag_bus_front.jpg": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80",
         "pothole_road_vizag.jpg": "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=800&q=80",
         "real_pothole_texture.jpg": "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=800&q=80",
         "real_waterlogging_texture.jpg": "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=800&q=80",
-        "rash_driving_car.jpg": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80",
+        "rash_driving_car.jpg": "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80",
         "anpr_rash_driving_ap39.jpg": "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80",
-        "anpr_hit_run_ap31.jpg": "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80",
-        "anpr_hit_run_ap35.jpg": "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80",
-        "anpr_hit_run_ap31_car.jpg": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80",
-        "anpr_rash_driving_night.jpg": "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=800&q=80",
+        "anpr_hit_run_ap31.jpg": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80",
+        "anpr_hit_run_ap35.jpg": "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=800&q=80",
+        "anpr_hit_run_ap31_car.jpg": "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80",
+        "anpr_rash_driving_night.jpg": "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=800&q=80",
         "route_101_rk_beach.jpg": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
         "route_101_vizag_real.jpg": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
         "route_202_nad_flyover.jpg": "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=800&q=80",
@@ -94,7 +93,7 @@ def get_asset_path(filename: str) -> str:
         "vizag_traffic_night_202.jpg": "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=800&q=80",
         "vizag_pedestrian_cross_404.jpg": "https://images.unsplash.com/photo-1477959858617-67f30ac4ce78?auto=format&fit=crop&w=800&q=80"
     }
-    return fallback_urls.get(clean_name, "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80")
+    return fallback_urls.get(clean_name, "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80")
 
 
 def render_anpr_incidents(raw_events: list):
@@ -277,9 +276,18 @@ def render_anpr_incidents(raw_events: list):
         eid = evt["event_id"]
         status_state = st.session_state.anpr_statuses[eid]
 
-        # Resolve evidence image path
-        img_ref = evt.get("evidence_reference", "")
-        img_path = get_asset_path(img_ref)
+        # Resolve evidence image path with event-specific mapping fallback
+        EVENT_IMAGE_MAP = {
+            "EVT-VZG-1008": "rash_driving_car.jpg",
+            "EVT-VZG-1009": "anpr_hit_run_ap31.jpg",
+            "EVT-VZG-1010": "anpr_rash_driving_ap39.jpg",
+            "EVT-VZG-1011": "vizag_pedestrian_cross_404.jpg",
+            "EVT-VZG-1012": "anpr_hit_run_ap35.jpg",
+            "EVT-VZG-1013": "anpr_rash_driving_night.jpg",
+            "EVT-VZG-1014": "anpr_hit_run_ap31_car.jpg",
+        }
+        target_filename = EVENT_IMAGE_MAP.get(eid, evt.get("evidence_reference", ""))
+        img_path = get_asset_path(target_filename)
 
         # Card Container
         with st.container():
