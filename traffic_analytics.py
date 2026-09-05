@@ -10,19 +10,48 @@ import pandas as pd
 from data_simulator import get_traffic_analytics_summary
 
 
-def get_assets_dir() -> str:
-    """Finds assets directory reliably regardless of flat/nested layout or current working directory."""
-    this_dir = os.path.dirname(os.path.abspath(__file__))
-    p1 = os.path.join(os.path.dirname(this_dir), "assets")
-    if os.path.exists(p1) and os.path.isdir(p1):
-        return p1
-    p2 = os.path.join(this_dir, "assets")
-    if os.path.exists(p2) and os.path.isdir(p2):
-        return p2
-    p3 = os.path.join(os.getcwd(), "assets")
-    if os.path.exists(p3) and os.path.isdir(p3):
-        return p3
-    return p1
+def get_asset_path(filename: str) -> str:
+    """Helper to locate asset files dynamically across workspace environments with domain-accurate URL fallback."""
+    if not filename:
+        return "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80"
+
+    raw_str = str(filename)
+    clean_name = os.path.basename(raw_str)
+    
+    if os.path.exists(raw_str) and os.path.isfile(raw_str):
+        return raw_str
+
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    candidate_paths = [
+        os.path.join(base_dir, "assets", clean_name),
+        os.path.join(os.getcwd(), "assets", clean_name),
+        os.path.join("assets", clean_name),
+        clean_name
+    ]
+    for path in candidate_paths:
+        if os.path.exists(path) and os.path.isfile(path):
+            return path
+
+    clean_lower = clean_name.lower()
+    for adir in [os.path.join(base_dir, "assets"), os.path.join(os.getcwd(), "assets"), "assets"]:
+        if os.path.exists(adir) and os.path.isdir(adir):
+            try:
+                for existing_file in os.listdir(adir):
+                    if existing_file.lower() == clean_lower:
+                        full_p = os.path.join(adir, existing_file)
+                        if os.path.exists(full_p) and os.path.isfile(full_p):
+                            return full_p
+            except Exception:
+                pass
+
+    fallback_urls = {
+        "vizag_bus_front.jpg": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80",
+        "vizag_traffic_heavy_303.jpg": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=800&q=80",
+        "vizag_traffic_night_202.jpg": "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=800&q=80",
+        "vizag_pedestrian_cross_404.jpg": "https://images.unsplash.com/photo-1477959858617-67f30ac4ce78?auto=format&fit=crop&w=800&q=80",
+        "rash_driving_car.jpg": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80"
+    }
+    return fallback_urls.get(clean_name, "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80")
 
 
 def render_traffic_analytics():
@@ -31,13 +60,12 @@ def render_traffic_analytics():
     Traffic Density Index (TDI), Relative Congestion Score, Class-wise breakdown, and Time-based rolling trend line charts.
     """
     traffic = get_traffic_analytics_summary()
-    assets_dir = get_assets_dir()
 
-    bus_front_img = os.path.join(assets_dir, "vizag_bus_front.jpg")
-    heavy_303_img = os.path.join(assets_dir, "vizag_traffic_heavy_303.jpg")
-    night_202_img = os.path.join(assets_dir, "vizag_traffic_night_202.jpg")
-    ped_404_img = os.path.join(assets_dir, "vizag_pedestrian_cross_404.jpg")
-    car_img = os.path.join(assets_dir, "rash_driving_car.jpg")
+    bus_front_img = get_asset_path("vizag_bus_front.jpg")
+    heavy_303_img = get_asset_path("vizag_traffic_heavy_303.jpg")
+    night_202_img = get_asset_path("vizag_traffic_night_202.jpg")
+    ped_404_img = get_asset_path("vizag_pedestrian_cross_404.jpg")
+    car_img = get_asset_path("rash_driving_car.jpg")
 
     # Header Card
     st.markdown(
@@ -249,31 +277,31 @@ def render_traffic_analytics():
             "path": bus_front_img,
             "title": "BUS-07 Front HD Camera POV",
             "caption": "RK Beach Coastal Expressway Bounding Box Tracking",
-            "fallback": "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=600&q=80"
+            "fallback": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80"
         },
         {
             "path": heavy_303_img,
             "title": "BUS-11 Daytime Camera POV",
             "caption": "Rushikonda IT Hill Expressway Traffic Tracking (ByteTrack IDs)",
-            "fallback": "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80"
+            "fallback": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=800&q=80"
         },
         {
             "path": night_202_img,
             "title": "BUS-02 Night Camera POV",
             "caption": "NAD Flyover Industrial Corridor Multi-Object Detection HUD",
-            "fallback": "https://images.unsplash.com/photo-1519692933481-e162a57d6721?auto=format&fit=crop&w=600&q=80"
+            "fallback": "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=800&q=80"
         },
         {
             "path": ped_404_img,
             "title": "BUS-09 Windshield Camera POV",
             "caption": "MVP Colony Market Street Pedestrian & Vehicle Tracking",
-            "fallback": "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=600&q=80"
+            "fallback": "https://images.unsplash.com/photo-1477959858617-67f30ac4ce78?auto=format&fit=crop&w=800&q=80"
         },
         {
             "path": car_img,
             "title": "BUS-11 Side Edge Camera POV",
             "caption": "High-Speed Vehicle ANPR Plate Capture (AP 39 TV 7219)",
-            "fallback": "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80"
+            "fallback": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80"
         }
     ]
 
@@ -284,7 +312,7 @@ def render_traffic_analytics():
     for idx in range(3):
         snap = snapshots[idx]
         with cols_r1[idx]:
-            img_src = snap["path"] if os.path.exists(snap["path"]) else snap["fallback"]
+            img_src = get_asset_path(snap["path"])
             st.image(
                 img_src,
                 caption=f"{snap['title']} — {snap['caption']}",
@@ -298,7 +326,7 @@ def render_traffic_analytics():
     for idx in range(3, 5):
         snap = snapshots[idx]
         with cols_r2[idx - 3]:
-            img_src = snap["path"] if os.path.exists(snap["path"]) else snap["fallback"]
+            img_src = get_asset_path(snap["path"])
             st.image(
                 img_src,
                 caption=f"{snap['title']} — {snap['caption']}",

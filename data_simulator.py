@@ -11,9 +11,69 @@ from config import ROUTES, ACTIVE_BUS_COUNT
 
 # Asset paths for vehicle & hazard evidence images
 ASSETS_DIR = os.path.join(os.path.dirname(__file__), "assets")
-IMG_BUS_FRONT = os.path.join(ASSETS_DIR, "vizag_bus_front.jpg") if os.path.exists(os.path.join(ASSETS_DIR, "vizag_bus_front.jpg")) else "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=600&q=80"
-IMG_RASH_CAR = os.path.join(ASSETS_DIR, "rash_driving_car.jpg") if os.path.exists(os.path.join(ASSETS_DIR, "rash_driving_car.jpg")) else "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=600&q=80"
-IMG_POTHOLE = os.path.join(ASSETS_DIR, "pothole_road_vizag.jpg") if os.path.exists(os.path.join(ASSETS_DIR, "pothole_road_vizag.jpg")) else "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=600&q=80"
+
+def get_asset_path(filename: str) -> str:
+    """Helper to locate asset files dynamically across workspace environments with domain-accurate URL fallback."""
+    if not filename:
+        return "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80"
+
+    raw_str = str(filename)
+    clean_name = os.path.basename(raw_str)
+    
+    if os.path.exists(raw_str) and os.path.isfile(raw_str):
+        return raw_str
+
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    candidate_paths = [
+        os.path.join(base_dir, "assets", clean_name),
+        os.path.join(os.getcwd(), "assets", clean_name),
+        os.path.join("assets", clean_name),
+        clean_name
+    ]
+    for path in candidate_paths:
+        if os.path.exists(path) and os.path.isfile(path):
+            return path
+
+    clean_lower = clean_name.lower()
+    for adir in [os.path.join(base_dir, "assets"), os.path.join(os.getcwd(), "assets"), "assets"]:
+        if os.path.exists(adir) and os.path.isdir(adir):
+            try:
+                for existing_file in os.listdir(adir):
+                    if existing_file.lower() == clean_lower:
+                        full_p = os.path.join(adir, existing_file)
+                        if os.path.exists(full_p) and os.path.isfile(full_p):
+                            return full_p
+            except Exception:
+                pass
+
+    fallback_urls = {
+        "vizag_bus_front.jpg": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80",
+        "pothole_road_vizag.jpg": "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=800&q=80",
+        "real_pothole_texture.jpg": "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=800&q=80",
+        "real_waterlogging_texture.jpg": "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=800&q=80",
+        "rash_driving_car.jpg": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80",
+        "anpr_rash_driving_ap39.jpg": "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80",
+        "anpr_hit_run_ap31.jpg": "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80",
+        "anpr_hit_run_ap35.jpg": "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&q=80",
+        "anpr_hit_run_ap31_car.jpg": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80",
+        "anpr_rash_driving_night.jpg": "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=800&q=80",
+        "route_101_rk_beach.jpg": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+        "route_101_vizag_real.jpg": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+        "route_202_nad_flyover.jpg": "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=800&q=80",
+        "route_202_vizag_real.jpg": "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=800&q=80",
+        "route_303_rushikonda_it.jpg": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=800&q=80",
+        "route_303_vizag_real.jpg": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=800&q=80",
+        "route_404_mvp_colony.jpg": "https://images.unsplash.com/photo-1477959858617-67f30ac4ce78?auto=format&fit=crop&w=800&q=80",
+        "route_404_vizag_real.jpg": "https://images.unsplash.com/photo-1477959858617-67f30ac4ce78?auto=format&fit=crop&w=800&q=80",
+        "vizag_traffic_heavy_303.jpg": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=800&q=80",
+        "vizag_traffic_night_202.jpg": "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=800&q=80",
+        "vizag_pedestrian_cross_404.jpg": "https://images.unsplash.com/photo-1477959858617-67f30ac4ce78?auto=format&fit=crop&w=800&q=80"
+    }
+    return fallback_urls.get(clean_name, "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80")
+
+IMG_BUS_FRONT = get_asset_path("vizag_bus_front.jpg")
+IMG_RASH_CAR = get_asset_path("rash_driving_car.jpg")
+IMG_POTHOLE = get_asset_path("pothole_road_vizag.jpg")
 
 
 def generate_bus_fleet() -> list[dict]:
@@ -81,7 +141,7 @@ def generate_raw_ai_events() -> list[dict]:
             "severity": "high",
             "priority": "high",
             "details": "Coastal road asphalt erosion near Submarine Museum parking exit (Visual BBox Area Ratio: 5.8%)",
-            "evidence_reference": IMG_POTHOLE if os.path.exists(IMG_POTHOLE) else "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=600&q=80",
+            "evidence_reference": get_asset_path("pothole_road_vizag.jpg"),
             "status": "needs_maintenance"
         },
         {
@@ -96,7 +156,7 @@ def generate_raw_ai_events() -> list[dict]:
             "severity": "high",
             "priority": "high",
             "details": "Pothole visual detection verified by optical AI pipeline",
-            "evidence_reference": IMG_POTHOLE if os.path.exists(IMG_POTHOLE) else "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=600&q=80",
+            "evidence_reference": get_asset_path("pothole_road_vizag.jpg"),
             "status": "needs_maintenance"
         },
         {
@@ -111,7 +171,7 @@ def generate_raw_ai_events() -> list[dict]:
             "severity": "high",
             "priority": "high",
             "details": "Asphalt road defect creating traffic slowdown on Beach Road north lane",
-            "evidence_reference": IMG_POTHOLE if os.path.exists(IMG_POTHOLE) else "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=600&q=80",
+            "evidence_reference": get_asset_path("pothole_road_vizag.jpg"),
             "status": "needs_maintenance"
         },
 
@@ -128,7 +188,7 @@ def generate_raw_ai_events() -> list[dict]:
             "severity": "high",
             "priority": "high",
             "details": "Stormwater accumulation under NAD Flyover loop (Visual Surface Anomaly)",
-            "evidence_reference": IMG_BUS_FRONT if os.path.exists(IMG_BUS_FRONT) else "https://images.unsplash.com/photo-1519692933481-e162a57d6721?auto=format&fit=crop&w=600&q=80",
+            "evidence_reference": get_asset_path("vizag_bus_front.jpg"),
             "status": "under_review"
         },
         {
@@ -143,7 +203,7 @@ def generate_raw_ai_events() -> list[dict]:
             "severity": "high",
             "priority": "high",
             "details": "Waterlogging expanding across 2 lanes towards Gajuwaka industrial corridor",
-            "evidence_reference": IMG_BUS_FRONT if os.path.exists(IMG_BUS_FRONT) else "https://images.unsplash.com/photo-1519692933481-e162a57d6721?auto=format&fit=crop&w=600&q=80",
+            "evidence_reference": get_asset_path("vizag_bus_front.jpg"),
             "status": "under_review"
         },
 
@@ -161,7 +221,7 @@ def generate_raw_ai_events() -> list[dict]:
             "severity": "high",
             "priority": "high",
             "details": "Municipal litter overflow & plastic waste pile near Siripuram Circle (SIMULATED_DEMO)",
-            "evidence_reference": IMG_BUS_FRONT if os.path.exists(IMG_BUS_FRONT) else "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80",
+            "evidence_reference": get_asset_path("vizag_bus_front.jpg"),
             "status": "needs_maintenance",
             "garbage_class": "plastic_overflow",
             "garbage_track_id": "GARBAGE-TRK-01"
@@ -179,7 +239,7 @@ def generate_raw_ai_events() -> list[dict]:
             "severity": "high",
             "priority": "high",
             "details": "Corroborated municipal waste accumulation at Siripuram commercial zone (SIMULATED_DEMO)",
-            "evidence_reference": IMG_BUS_FRONT if os.path.exists(IMG_BUS_FRONT) else "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80",
+            "evidence_reference": get_asset_path("vizag_bus_front.jpg"),
             "status": "needs_maintenance",
             "garbage_class": "litter_pile",
             "garbage_track_id": "GARBAGE-TRK-01"
@@ -198,7 +258,7 @@ def generate_raw_ai_events() -> list[dict]:
             "severity": "medium",
             "priority": "medium",
             "details": "Siripuram Junction overhead direction board tilted following coastal winds",
-            "evidence_reference": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=600&q=80",
+            "evidence_reference": get_asset_path("route_303_rushikonda_it.jpg"),
             "status": "new"
         },
         {
@@ -213,7 +273,7 @@ def generate_raw_ai_events() -> list[dict]:
             "severity": "high",
             "priority": "high",
             "details": "Unregulated pedestrian crossing risk near MVP Colony Double Road market area",
-            "evidence_reference": IMG_BUS_FRONT if os.path.exists(IMG_BUS_FRONT) else "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=600&q=80",
+            "evidence_reference": get_asset_path("vizag_pedestrian_cross_404.jpg"),
             "status": "review_alert"
         },
 
@@ -230,7 +290,7 @@ def generate_raw_ai_events() -> list[dict]:
             "severity": "critical",
             "priority": "critical",
             "details": "Overspeeding rash maneuver near Rushikonda IT Hill curve. ANPR OCR extracted: AP 39 TV 7219",
-            "evidence_reference": IMG_RASH_CAR if os.path.exists(IMG_RASH_CAR) else "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80",
+            "evidence_reference": get_asset_path("rash_driving_car.jpg"),
             "status": "REQUIRES HUMAN REVIEW",
             "anpr_data": {
                 "plate_number": "AP 39 TV 7219",
@@ -253,7 +313,7 @@ def generate_raw_ai_events() -> list[dict]:
             "severity": "critical",
             "priority": "critical",
             "details": "Reckless speed lane-cutting and hit-and-run collision threat under NAD Flyover loop. ANPR OCR extracted: AP 31 CZ 4402",
-            "evidence_reference": os.path.join(ASSETS_DIR, "anpr_hit_run_ap31.jpg") if os.path.exists(os.path.join(ASSETS_DIR, "anpr_hit_run_ap31.jpg")) else "https://images.unsplash.com/photo-1519692933481-e162a57d6721?auto=format&fit=crop&w=600&q=80",
+            "evidence_reference": get_asset_path("anpr_hit_run_ap31.jpg"),
             "status": "REQUIRES HUMAN REVIEW",
             "anpr_data": {
                 "plate_number": "AP 31 CZ 4402",
@@ -276,7 +336,7 @@ def generate_raw_ai_events() -> list[dict]:
             "severity": "critical",
             "priority": "critical",
             "details": "Illegal high-speed U-turn crossing central median divider on RK Beach Road. ANPR OCR extracted: AP 39 BK 9182",
-            "evidence_reference": os.path.join(ASSETS_DIR, "anpr_rash_driving_ap39.jpg") if os.path.exists(os.path.join(ASSETS_DIR, "anpr_rash_driving_ap39.jpg")) else "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=600&q=80",
+            "evidence_reference": get_asset_path("anpr_rash_driving_ap39.jpg"),
             "status": "REQUIRES HUMAN REVIEW",
             "anpr_data": {
                 "plate_number": "AP 39 BK 9182",
@@ -299,7 +359,7 @@ def generate_raw_ai_events() -> list[dict]:
             "severity": "critical",
             "priority": "critical",
             "details": "Speeding vehicle pedestrian hazard near MVP Colony market crossing. ANPR OCR extracted: AP 39 EU 1509",
-            "evidence_reference": os.path.join(ASSETS_DIR, "vizag_pedestrian_cross_404.jpg") if os.path.exists(os.path.join(ASSETS_DIR, "vizag_pedestrian_cross_404.jpg")) else "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=600&q=80",
+            "evidence_reference": get_asset_path("vizag_pedestrian_cross_404.jpg"),
             "status": "REQUIRES HUMAN REVIEW",
             "anpr_data": {
                 "plate_number": "AP 39 EU 1509",
@@ -322,7 +382,7 @@ def generate_raw_ai_events() -> list[dict]:
             "severity": "critical",
             "priority": "critical",
             "details": "Heavy container truck hit-and-run evasion after dangerous high-speed drift in Gajuwaka industrial zone. ANPR OCR extracted: AP 35 TH 8831",
-            "evidence_reference": os.path.join(ASSETS_DIR, "anpr_hit_run_ap35.jpg") if os.path.exists(os.path.join(ASSETS_DIR, "anpr_hit_run_ap35.jpg")) else "https://images.unsplash.com/photo-1519692933481-e162a57d6721?auto=format&fit=crop&w=600&q=80",
+            "evidence_reference": get_asset_path("anpr_hit_run_ap35.jpg"),
             "status": "REQUIRES HUMAN REVIEW",
             "anpr_data": {
                 "plate_number": "AP 35 TH 8831",
@@ -345,7 +405,7 @@ def generate_raw_ai_events() -> list[dict]:
             "severity": "critical",
             "priority": "critical",
             "details": "Reckless night motorcycle stunt and high-speed slalom overtake at Siripuram Junction circle. ANPR OCR extracted: AP 39 MW 5021",
-            "evidence_reference": os.path.join(ASSETS_DIR, "anpr_rash_driving_night.jpg") if os.path.exists(os.path.join(ASSETS_DIR, "anpr_rash_driving_night.jpg")) else "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80",
+            "evidence_reference": get_asset_path("anpr_rash_driving_night.jpg"),
             "status": "REQUIRES HUMAN REVIEW",
             "anpr_data": {
                 "plate_number": "AP 39 MW 5021",
@@ -368,7 +428,7 @@ def generate_raw_ai_events() -> list[dict]:
             "severity": "critical",
             "priority": "critical",
             "details": "Red light jump and hit-and-run evasion attempt at NAD Flyover upper ramp. ANPR OCR extracted: AP 31 EA 1109",
-            "evidence_reference": os.path.join(ASSETS_DIR, "anpr_hit_run_ap31_car.jpg") if os.path.exists(os.path.join(ASSETS_DIR, "anpr_hit_run_ap31_car.jpg")) else "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=600&q=80",
+            "evidence_reference": get_asset_path("anpr_hit_run_ap31_car.jpg"),
             "status": "REQUIRES HUMAN REVIEW",
             "anpr_data": {
                 "plate_number": "AP 31 EA 1109",

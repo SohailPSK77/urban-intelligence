@@ -12,17 +12,45 @@ from video_processor import BusCameraVideoProcessor
 
 
 def get_asset_path(filename: str) -> str:
-    """Helper to locate asset files dynamically across workspace environments."""
+    """Helper to locate asset files dynamically across workspace environments with domain-accurate URL fallback."""
+    if not filename:
+        return "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80"
+
+    raw_str = str(filename)
+    clean_name = os.path.basename(raw_str)
+    
+    if os.path.exists(raw_str) and os.path.isfile(raw_str):
+        return raw_str
+
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     candidate_paths = [
-        os.path.join(base_dir, "assets", filename),
-        os.path.join(os.getcwd(), "assets", filename),
-        filename
+        os.path.join(base_dir, "assets", clean_name),
+        os.path.join(os.getcwd(), "assets", clean_name),
+        os.path.join("assets", clean_name),
+        clean_name
     ]
     for path in candidate_paths:
-        if os.path.exists(path):
+        if os.path.exists(path) and os.path.isfile(path):
             return path
-    return filename
+
+    clean_lower = clean_name.lower()
+    for adir in [os.path.join(base_dir, "assets"), os.path.join(os.getcwd(), "assets"), "assets"]:
+        if os.path.exists(adir) and os.path.isdir(adir):
+            try:
+                for existing_file in os.listdir(adir):
+                    if existing_file.lower() == clean_lower:
+                        full_p = os.path.join(adir, existing_file)
+                        if os.path.exists(full_p) and os.path.isfile(full_p):
+                            return full_p
+            except Exception:
+                pass
+
+    fallback_urls = {
+        "vizag_bus_front.jpg": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80",
+        "pothole_road_vizag.jpg": "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=800&q=80",
+        "rash_driving_car.jpg": "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80"
+    }
+    return fallback_urls.get(clean_name, "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80")
 
 
 def initialize_telemetry_history():
