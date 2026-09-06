@@ -244,5 +244,77 @@ def verify_otp_and_reset_password(user_id: str, input_otp: str, valid_otp: str, 
         return False, f"Failed to update password for account '{user_id}'."
 
 
+def register_user(
+    user_id: str,
+    username: str,
+    password: str,
+    role: str,
+    mobile_number: str,
+    bus_id: Optional[str] = None,
+    route_id: Optional[str] = None,
+    operator_id: Optional[str] = "APSRTC-VIZAG",
+    db_path: str = DB_PATH
+) -> Tuple[bool, str]:
+    """
+    Registers a new user account in SQLite users table.
+    Validates user ID uniqueness, mobile number format, and stores PBKDF2 hashed password.
+    Returns (success, message).
+    """
+    user_id = user_id.strip().upper() if user_id else ""
+    username = username.strip() if username else ""
+    password = password.strip() if password else ""
+    role = role.strip().upper() if role else ""
+    mobile_number = normalize_mobile(mobile_number)
+
+    if not user_id:
+        return False, "Account ID / User ID is required."
+    if len(user_id) < 3:
+        return False, "Account ID must be at least 3 characters."
+    if not username:
+        return False, "Full Name / Display Name is required."
+    if not password or len(password) < 4:
+        return False, "Password must be at least 4 characters long."
+    if role not in ["BUS", "OFFICIAL"]:
+        return False, "Invalid role. Role must be 'BUS' or 'OFFICIAL'."
+    if not mobile_number or len(mobile_number) < 10:
+        return False, "Valid 10-digit mobile number is required for account verification."
+
+    init_user_db(db_path)
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    # Check if user_id already exists
+    cursor.execute("SELECT user_id FROM users WHERE user_id = ?", (user_id,))
+    if cursor.fetchone():
+        conn.close()
+        return False, f"Account ID '{user_id}' is already registered. Please log in or choose a different ID."
+
+    # Default bus_id and route_id handling
+    if role == "BUS":
+        if not bus_id:
+            bus_id = user_id if user_id.startswith("BUS-") else f"BUS-{user_id}"
+        if not route_id:
+            route_id = "ROUTE-101"
+    else:
+        bus_id = None
+        route_id = None
+        if not operator_id:
+            operator_id = "APSRTC-HQ"
+
+    p_hash, p_salt = hash_password(password)
+
+    try:
+        cursor.execute("""
+            INSERT INTO users (user_id, username, password_hash, salt, role, bus_id, route_id, operator_id, mobile_number)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (user_id, username, p_hash, p_salt, role, bus_id, route_id, operator_id, mobile_number))
+        conn.commit()
+        conn.close()
+        return True, f"Account '{user_id}' ({username}) successfully registered! You can now log in with your credentials."
+    except Exception as e:
+        conn.close()
+        return False, f"Registration failed: {str(e)}"
+
+
 # Ensure database is initialized upon import
 init_user_db()

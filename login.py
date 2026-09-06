@@ -5,12 +5,12 @@ Renders dark glassmorphic login card and Mobile OTP password reset workflow.
 
 import streamlit as st
 from datetime import datetime
-from auth import authenticate_user, generate_mobile_otp, verify_otp_and_reset_password
+from auth import authenticate_user, generate_mobile_otp, verify_otp_and_reset_password, register_user
 
 
 def render_login_screen():
     """
-    Renders the platform login page with Mobile OTP password reset tab.
+    Renders the platform login page with Mobile OTP password reset tab and User Registration tab.
     Prevents access to the operational dashboard until valid authentication occurs.
     """
     st.markdown(
@@ -25,9 +25,10 @@ def render_login_screen():
     col_l, col_center, col_r = st.columns([1, 2.8, 1])
 
     with col_center:
-        tab_login, tab_reset = st.tabs([
+        tab_login, tab_reset, tab_register = st.tabs([
             "🔐 Account Login",
-            "📱 Forgot / Reset Password via Mobile OTP"
+            "📱 Forgot / Reset Password",
+            "📝 Create New Account"
         ])
 
         # -------------------------------------------------------------
@@ -177,10 +178,87 @@ def render_login_screen():
                     else:
                         st.error(f"❌ {v_msg}")
 
+        # -------------------------------------------------------------
+        # TAB 3: ACCOUNT CREATION / USER REGISTRATION
+        # -------------------------------------------------------------
+        with tab_register:
+            st.markdown("#### 📝 Create New Account")
+            st.caption("Register a new ONBOARD BUS or OFFICIAL COMMAND CENTER operator account.")
+
+            with st.form("register_form", clear_on_submit=False):
+                reg_role_label = st.selectbox(
+                    "Select Operational Role",
+                    ["OFFICIAL COMMAND CENTER", "ONBOARD BUS"],
+                    index=0,
+                    help="Choose OFFICIAL for command center officers or ONBOARD BUS for fleet vehicle operators."
+                )
+                reg_role_code = "BUS" if reg_role_label == "ONBOARD BUS" else "OFFICIAL"
+
+                reg_user_id = st.text_input(
+                    "Desired Account ID / User ID *",
+                    placeholder="e.g. OFFICIAL-005 or BUS-19",
+                    help="Unique identifier for login (e.g. OFFICIAL-005 or BUS-19)."
+                )
+
+                reg_username = st.text_input(
+                    "Full Name / Display Name *",
+                    placeholder="e.g. Officer Rajesh Varma",
+                    help="Name of the account owner."
+                )
+
+                reg_mobile = st.text_input(
+                    "10-Digit Mobile Number *",
+                    placeholder="e.g. 9876543210",
+                    help="Required for OTP password recovery."
+                )
+
+                reg_pwd = st.text_input(
+                    "Password (Min 4 chars) *",
+                    type="password",
+                    placeholder="Enter account password"
+                )
+
+                reg_pwd_confirm = st.text_input(
+                    "Confirm Password *",
+                    type="password",
+                    placeholder="Re-enter password"
+                )
+
+                # Optional Bus & Route info for Bus operators
+                reg_bus_id = None
+                reg_route_id = None
+                if reg_role_code == "BUS":
+                    c_b1, c_b2 = st.columns(2)
+                    with c_b1:
+                        reg_bus_id = st.text_input("Assigned Bus ID", placeholder="e.g. BUS-19")
+                    with c_b2:
+                        reg_route_id = st.selectbox("Assigned Transit Route", ["ROUTE-101", "ROUTE-202", "ROUTE-303", "ROUTE-404"])
+
+                btn_register = st.form_submit_button("📝 Register Account & Save", use_container_width=True)
+
+            if btn_register:
+                if reg_pwd != reg_pwd_confirm:
+                    st.error("❌ Passwords do not match. Please ensure both password fields match.")
+                else:
+                    reg_ok, reg_msg = register_user(
+                        user_id=reg_user_id,
+                        username=reg_username,
+                        password=reg_pwd,
+                        role=reg_role_code,
+                        mobile_number=reg_mobile,
+                        bus_id=reg_bus_id,
+                        route_id=reg_route_id
+                    )
+                    if reg_ok:
+                        st.success(f"✅ {reg_msg}")
+                    else:
+                        st.error(f"❌ {reg_msg}")
+
         st.markdown("---")
         
         st.info(
             "ℹ️ **SECURITY & LOGIN GUIDE**\n\n"
             "• **Role-Based Authentication**: Secure password verification for ONBOARD BUS operators and OFFICIAL COMMAND CENTER officers.\n"
+            "• **Account Registration**: Create new official commander or bus fleet operator accounts under the 'Create New Account' tab.\n"
             "• **Registered Mobile OTP Verification**: For demonstration, test OTP verification codes are generated for registered numbers (`BUS-07`: `9491591473` | `BUS-08`: `7842835677` | `OFFICIAL-001`: `7995974455` | `OFFICIAL-002`: `6303133198`)."
         )
