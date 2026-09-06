@@ -14,22 +14,10 @@ def render_fusion_lab():
     multiple buses detecting the same pothole or hazard sequentially.
     """
     st.markdown(
-        """
-        <div style="
-            background: #1E293B;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-        ">
-            <h3 style="color: #F8FAFC; margin: 0 0 6px 0; font-weight: 800;">
-                🧪 Multi-Bus Event Fusion Interactive Lab
-            </h3>
-            <p style="color: #94A3B8; font-size: 0.88rem; margin: 0;">
-                Test how independent bus detections are automatically verified and combined when multiple buses pass the same location.
-            </p>
-        </div>
-        """,
+        """<div style="background: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+<h3 style="color: #F8FAFC; margin: 0 0 6px 0; font-weight: 800;">🧪 Multi-Bus Event Fusion Interactive Lab</h3>
+<p style="color: #94A3B8; font-size: 0.88rem; margin: 0;">Test how independent bus detections are automatically verified and combined when multiple buses pass the same location.</p>
+</div>""",
         unsafe_allow_html=True
     )
 
@@ -140,58 +128,38 @@ def render_fusion_lab():
         status_text = "CONFIRMED (MULTI-BUS VERIFIED)" if len(active_buses) >= 3 else ("VERIFIED PERSISTENT (2 BUSES)" if len(active_buses) == 2 else "SINGLE OBSERVATION (UNVERIFIED)")
 
         st.markdown(
-            f"""
-            <div style="
-                background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-                border: 2px solid {status_color};
-                border-radius: 12px;
-                padding: 20px;
-                margin-bottom: 16px;
-            ">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-                    <h3 style="color: #F8FAFC; margin: 0; font-weight: 800;">
-                        🔗 Multi-Bus Confirmation
-                    </h3>
-                    <span style="background: rgba(52, 211, 153, 0.15); color: {status_color}; border: 1px solid {status_color}; padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.78rem;">
-                        {status_text}
-                    </span>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; color: #CBD5E1; font-size: 0.88rem; line-height: 1.6;">
-                    <div style="grid-column: span 2; background: rgba(15, 23, 42, 0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #38BDF8;">
-                        <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">What happened?</span>
-                        <span style="color: #F8FAFC; font-weight: 600;">Multiple buses independently reported the same road issue along the transit corridor.</span>
-                    </div>
-
-                    <div>
-                        <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Buses reporting the issue:</span>
-                        <strong style="color: #38BDF8; font-size: 1.1rem;">{", ".join(active_buses)}</strong>
-                    </div>
-
-                    <div>
-                        <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Total observations:</span>
-                        <strong style="color: #F8FAFC; font-size: 1.1rem;">{len(active_buses)} Independent Passes</strong>
-                    </div>
-
-                    <div>
-                        <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Combined Verification Confidence:</span>
-                        <strong style="color: #34D399; font-size: 1.1rem;">{round(joint_conf * 100, 1)}%</strong>
-                    </div>
-
-                    <div>
-                        <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Issue Status:</span>
-                        <strong style="color: #34D399; font-size: 1.1rem;">Confirmed</strong>
-                    </div>
-
-                    <div style="grid-column: span 2; background: rgba(30, 41, 59, 0.6); padding: 10px 14px; border-radius: 8px;">
-                        <span style="color: #60A5FA; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Result & Why this matters:</span>
-                        <span style="color: #CBD5E1; font-size: 0.84rem;">
-                            Instead of creating separate duplicate tickets from every passing bus, the platform automatically combines matching observations into <b>one single high-confidence persistent issue</b> for city authorities.
-                        </span>
-                    </div>
-                </div>
-            </div>
-            """,
+            f"""<div style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); border: 2px solid {status_color}; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+<h3 style="color: #F8FAFC; margin: 0; font-weight: 800;">🔗 Multi-Bus Confirmation</h3>
+<span style="background: rgba(52, 211, 153, 0.15); color: {status_color}; border: 1px solid {status_color}; padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.78rem;">{status_text}</span>
+</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; color: #CBD5E1; font-size: 0.88rem; line-height: 1.6;">
+<div style="grid-column: span 2; background: rgba(15, 23, 42, 0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #38BDF8;">
+<span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">What happened?</span>
+<span style="color: #F8FAFC; font-weight: 600;">Multiple buses independently reported the same road issue along the transit corridor.</span>
+</div>
+<div>
+<span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Buses reporting the issue:</span>
+<strong style="color: #38BDF8; font-size: 1.1rem;">{", ".join(active_buses)}</strong>
+</div>
+<div>
+<span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Total observations:</span>
+<strong style="color: #F8FAFC; font-size: 1.1rem;">{len(active_buses)} Independent Passes</strong>
+</div>
+<div>
+<span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Combined Verification Confidence:</span>
+<strong style="color: #34D399; font-size: 1.1rem;">{round(joint_conf * 100, 1)}%</strong>
+</div>
+<div>
+<span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Issue Status:</span>
+<strong style="color: #34D399; font-size: 1.1rem;">Confirmed</strong>
+</div>
+<div style="grid-column: span 2; background: rgba(30, 41, 59, 0.6); padding: 10px 14px; border-radius: 8px;">
+<span style="color: #60A5FA; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Result & Why this matters:</span>
+<span style="color: #CBD5E1; font-size: 0.84rem;">Instead of creating separate duplicate tickets from every passing bus, the platform automatically combines matching observations into <b>one single high-confidence persistent issue</b> for city authorities.</span>
+</div>
+</div>
+</div>""",
             unsafe_allow_html=True
         )
 

@@ -87,25 +87,17 @@ def render_telemetry_logs(selected_bus_id: str = "BUS-07", selected_route_id: st
     initialize_telemetry_history()
 
     st.markdown(
-        """
-        <div style="background: #0F172A; border: 1px solid #334155; border-radius: 12px; padding: 18px; margin-bottom: 20px;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <h4 style="color: #F8FAFC; margin: 0 0 4px 0; font-weight: 800;">
-                        📊 Onboard Camera & Vehicle Analytics Logs
-                    </h4>
-                    <p style="color: #94A3B8; font-size: 0.85rem; margin: 0;">
-                        Live, frame-by-frame sensing measurements recorded across public transport bus camera feeds in Visakhapatnam.
-                    </p>
-                </div>
-                <div>
-                    <span style="background: rgba(59, 130, 246, 0.2); color: #60A5FA; border: 1px solid #3B82F6; padding: 4px 10px; border-radius: 16px; font-size: 0.75rem; font-weight: 800;">
-                        ⚡ CAMERA SENSING ACTIVE
-                    </span>
-                </div>
-            </div>
-        </div>
-        """,
+        """<div style="background: #0F172A; border: 1px solid #334155; border-radius: 12px; padding: 18px; margin-bottom: 20px;">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<div>
+<h4 style="color: #F8FAFC; margin: 0 0 4px 0; font-weight: 800;">📊 Onboard Camera & Vehicle Analytics Logs</h4>
+<p style="color: #94A3B8; font-size: 0.85rem; margin: 0;">Live, frame-by-frame sensing measurements recorded across public transport bus camera feeds in Visakhapatnam.</p>
+</div>
+<div>
+<span style="background: rgba(59, 130, 246, 0.2); color: #60A5FA; border: 1px solid #3B82F6; padding: 4px 10px; border-radius: 16px; font-size: 0.75rem; font-weight: 800;">⚡ CAMERA SENSING ACTIVE</span>
+</div>
+</div>
+</div>""",
         unsafe_allow_html=True
     )
 

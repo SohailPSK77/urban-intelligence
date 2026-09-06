@@ -69,31 +69,19 @@ def render_traffic_analytics():
 
     # Header Card
     st.markdown(
-        """
-        <div style="background: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 18px; margin-bottom: 20px;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <span style="background: rgba(52, 211, 153, 0.15); color: #34D399; border: 1px solid #34D399; padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">
-                        🚦 REAL TRAFFIC INTELLIGENCE ENGINE
-                    </span>
-                    <h3 style="color: #F8FAFC; margin: 6px 0 2px 0; font-weight: 800;">
-                        🚦 Bus-Side Real Traffic Intelligence & Vehicle Tracking
-                    </h3>
-                    <p style="color: #94A3B8; font-size: 0.85rem; margin: 0 0 4px 0;">
-                        Real-time vehicle detection, corridor density analysis, movement analytics, and traffic trend tracking.
-                    </p>
-                    <p style="color: #38BDF8; font-size: 0.78rem; margin: 0; font-weight: 600;">
-                        ℹ️ Video-time persistence is used for recorded video; processing wall-clock time is used only for performance measurement.
-                    </p>
-                </div>
-                <div style="text-align: right;">
-                    <span style="color: #34D399; font-size: 0.8rem; font-weight: 700;">
-                        🟢 REAL AI: ACTIVE
-                    </span>
-                </div>
-            </div>
-        </div>
-        """,
+        """<div style="background: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 18px; margin-bottom: 20px;">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<div>
+<span style="background: rgba(52, 211, 153, 0.15); color: #34D399; border: 1px solid #34D399; padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">🚦 REAL TRAFFIC INTELLIGENCE ENGINE</span>
+<h3 style="color: #F8FAFC; margin: 6px 0 2px 0; font-weight: 800;">🚦 Bus-Side Real Traffic Intelligence & Vehicle Tracking</h3>
+<p style="color: #94A3B8; font-size: 0.85rem; margin: 0 0 4px 0;">Real-time vehicle detection, corridor density analysis, movement analytics, and traffic trend tracking.</p>
+<p style="color: #38BDF8; font-size: 0.78rem; margin: 0; font-weight: 600;">ℹ️ Video-time persistence is used for recorded video; processing wall-clock time is used only for performance measurement.</p>
+</div>
+<div style="text-align: right;">
+<span style="color: #34D399; font-size: 0.8rem; font-weight: 700;">🟢 REAL AI: ACTIVE</span>
+</div>
+</div>
+</div>""",
         unsafe_allow_html=True
     )
 
@@ -109,39 +97,34 @@ def render_traffic_analytics():
     unique_tracks = traffic.get("cumulative_unique_tracks", 14)
 
     st.markdown(
-        f"""
-        <div style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); border: 2px solid #F59E0B; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h3 style="color: #F8FAFC; margin: 0; font-weight: 800;">🚦 Traffic Condition</h3>
-                <span style="background: rgba(52, 211, 153, 0.15); color: #34D399; border: 1px solid #34D399; padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.78rem;">🟢 REAL AI — Vehicle Tracking</span>
-            </div>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; color: #CBD5E1; font-size: 0.88rem; line-height: 1.6;">
-                <div style="grid-column: span 2; background: rgba(15, 23, 42, 0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #F59E0B;">
-                    <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">What does this mean?</span>
-                    <span style="color: #F8FAFC; font-weight: 600;">Traffic in the monitored road area is currently showing a high level of vehicle occupancy and reduced movement speed.</span>
-                </div>
-
-                <div>
-                    <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Current Traffic Flow Level:</span>
-                    <strong style="color: #F59E0B; font-size: 1.1rem;">{congestion_level}</strong>
-                </div>
-                <div>
-                    <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Vehicles Detected:</span>
-                    <strong style="color: #38BDF8; font-size: 1.1rem;">{active_vehicles} Vehicles ({active_pedestrians} Pedestrians)</strong>
-                </div>
-
-                <div>
-                    <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Traffic Density:</span>
-                    <strong style="color: #F8FAFC;">{density_level} (Index: {tdi})</strong>
-                </div>
-                <div>
-                    <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Movement Analytics:</span>
-                    <strong style="color: #34D399;">{moving_count} Moving / {stationary_count} Stationary</strong>
-                </div>
-            </div>
-        </div>
-        """,
+        f"""<div style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); border: 2px solid #F59E0B; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+<h3 style="color: #F8FAFC; margin: 0; font-weight: 800;">🚦 Traffic Condition</h3>
+<span style="background: rgba(52, 211, 153, 0.15); color: #34D399; border: 1px solid #34D399; padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.78rem;">🟢 REAL AI — Vehicle Tracking</span>
+</div>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; color: #CBD5E1; font-size: 0.88rem; line-height: 1.6;">
+<div style="grid-column: span 2; background: rgba(15, 23, 42, 0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid #F59E0B;">
+<span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">What does this mean?</span>
+<span style="color: #F8FAFC; font-weight: 600;">Traffic in the monitored road area is currently showing a high level of vehicle occupancy and reduced movement speed.</span>
+</div>
+<div>
+<span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Current Traffic Flow Level:</span>
+<strong style="color: #F59E0B; font-size: 1.1rem;">{congestion_level}</strong>
+</div>
+<div>
+<span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Vehicles Detected:</span>
+<strong style="color: #38BDF8; font-size: 1.1rem;">{active_vehicles} Vehicles ({active_pedestrians} Pedestrians)</strong>
+</div>
+<div>
+<span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Traffic Density:</span>
+<strong style="color: #F8FAFC;">{density_level} (Index: {tdi})</strong>
+</div>
+<div>
+<span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Movement Analytics:</span>
+<strong style="color: #34D399;">{moving_count} Moving / {stationary_count} Stationary</strong>
+</div>
+</div>
+</div>""",
         unsafe_allow_html=True
     )
 
@@ -188,26 +171,15 @@ def render_traffic_analytics():
             is_ai_derived = "AI-derived" in b.get("location", "") or b.get("is_real_ai", False)
             tag = "🟢 AI BOTTLENECK CANDIDATE" if is_ai_derived else "🟡 CORRIDOR MONITOR"
             st.markdown(
-                f"""
-                <div style="
-                    background: #0F172A;
-                    border: 1px solid #334155;
-                    border-left: 4px solid {'#34D399' if is_ai_derived else '#F87171'};
-                    border-radius: 8px;
-                    padding: 14px;
-                    margin-bottom: 12px;
-                ">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="color: #F8FAFC; font-weight: 700; font-size: 0.95rem;">{b['route_id']} • {b['location']}</span>
-                        <span style="background: rgba(52, 211, 153, 0.2); color: #34D399; font-weight: 800; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem;">
-                            {tag}
-                        </span>
-                    </div>
-                    <div style="color: #94A3B8; font-size: 0.8rem; margin-top: 6px;">
-                        Length: <b>{b['length_km']} km</b> &nbsp;|&nbsp; Est Delay: <b>+{b['est_delay_min']} min</b> &nbsp;|&nbsp; Speed / Disp: <b>{b.get('avg_speed_kmh', 'N/A')}</b>
-                    </div>
-                </div>
-                """,
+                f"""<div style="background: #0F172A; border: 1px solid #334155; border-left: 4px solid {'#34D399' if is_ai_derived else '#F87171'}; border-radius: 8px; padding: 14px; margin-bottom: 12px;">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<span style="color: #F8FAFC; font-weight: 700; font-size: 0.95rem;">{b['route_id']} • {b['location']}</span>
+<span style="background: rgba(52, 211, 153, 0.2); color: #34D399; font-weight: 800; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem;">{tag}</span>
+</div>
+<div style="color: #94A3B8; font-size: 0.8rem; margin-top: 6px;">
+Length: <b>{b['length_km']} km</b> &nbsp;|&nbsp; Est Delay: <b>+{b['est_delay_min']} min</b> &nbsp;|&nbsp; Speed / Disp: <b>{b.get('avg_speed_kmh', 'N/A')}</b>
+</div>
+</div>""",
                 unsafe_allow_html=True
             )
 

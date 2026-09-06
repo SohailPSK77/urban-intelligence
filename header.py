@@ -25,24 +25,7 @@ def _render_identity_bar() -> str:
             bg_color = "rgba(192, 132, 252, 0.1)"
             border_color = "rgba(192, 132, 252, 0.3)"
 
-        return f"""
-        <div style="
-            margin-top: 14px;
-            padding: 8px 16px;
-            background: {bg_color};
-            border: 1px solid {border_color};
-            border-radius: 8px;
-            color: {badge_color};
-            font-size: 0.82rem;
-            letter-spacing: 0.5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        ">
-            <div>🟢 {identity_str}</div>
-            <div style="font-size: 0.75rem; color: #94A3B8;">SECURITY: AUTHENTICATED SESSION ACTIVE</div>
-        </div>
-        """
+        return f'<div style="margin-top: 14px; padding: 8px 16px; background: {bg_color}; border: 1px solid {border_color}; border-radius: 8px; color: {badge_color}; font-size: 0.82rem; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center;"><div>🟢 {identity_str}</div><div style="font-size: 0.75rem; color: #94A3B8;">SECURITY: AUTHENTICATED SESSION ACTIVE</div></div>'
     return ""
 
 
@@ -90,19 +73,6 @@ def render_header(buses: list, raw_events: list, persistent_issues: list):
     for col, (title, val, sub, color) in zip(cols, metrics):
         with col:
             st.markdown(
-                f"""
-                <div style="
-                    background: #1E293B;
-                    border: 1px solid #334155;
-                    border-radius: 10px;
-                    padding: 14px 12px;
-                    text-align: center;
-                    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
-                ">
-                    <div style="color: #94A3B8; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 4px;">{title}</div>
-                    <div style="color: {color}; font-size: 1.45rem; font-weight: 800; line-height: 1.2;">{val}</div>
-                    <div style="color: #64748B; font-size: 0.68rem; margin-top: 4px;">{sub}</div>
-                </div>
-                """,
+                f'<div style="background: #1E293B; border: 1px solid #334155; border-radius: 10px; padding: 14px 12px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);"><div style="color: #94A3B8; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 4px;">{title}</div><div style="color: {color}; font-size: 1.45rem; font-weight: 800; line-height: 1.2;">{val}</div><div style="color: #64748B; font-size: 0.68rem; margin-top: 4px;">{sub}</div></div>',
                 unsafe_allow_html=True
             )

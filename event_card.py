@@ -4,6 +4,7 @@ Converts technical event payloads into clean, user-friendly UI cards for judges,
 Places raw technical JSON data behind a collapsible "🔧 Technical Details" expander.
 """
 
+import textwrap
 import streamlit as st
 
 
@@ -135,28 +136,19 @@ def render_human_readable_event_card(evt: dict):
 
     # Render Card HTML
     st.markdown(
-        f"""
-        <div style="
-            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-            border: 2px solid {border_color};
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
-        ">
+        textwrap.dedent(f"""
+        <div style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); border: 2px solid {border_color}; border-radius: 12px; padding: 20px; margin-bottom: 16px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);">
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid #334155; padding-bottom: 12px;">
                 <h3 style="color: #F8FAFC; margin: 0; font-weight: 800; font-size: 1.25rem;">
                     {title}
                 </h3>
                 {badge_html}
             </div>
-
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; color: #CBD5E1; font-size: 0.88rem; line-height: 1.6;">
                 <div style="grid-column: span 2; background: rgba(15, 23, 42, 0.6); padding: 10px 14px; border-radius: 8px; border-left: 3px solid {border_color};">
                     <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">What happened?</span>
                     <span style="color: #F8FAFC; font-weight: 600;">{what_happened}</span>
                 </div>
-
                 <div>
                     <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Detected by:</span>
                     <strong style="color: #F8FAFC; font-size: 1.05rem;">{bus_id}</strong>
@@ -165,12 +157,10 @@ def render_human_readable_event_card(evt: dict):
                     <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Route:</span>
                     <strong style="color: #F8FAFC; font-size: 1.05rem;">{route_id}</strong>
                 </div>
-
                 <div style="grid-column: span 2;">
                     <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Location:</span>
                     <strong style="color: #38BDF8; font-size: 0.95rem;">{location_str}</strong>
                 </div>
-
                 <div>
                     <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Detection status:</span>
                     <strong style="color: #34D399;">{det_status_str}</strong>
@@ -179,7 +169,6 @@ def render_human_readable_event_card(evt: dict):
                     <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Location status:</span>
                     <strong style="color: #FBBF24;">{gps_status}</strong>
                 </div>
-
                 <div>
                     <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Tracking Reference:</span>
                     <strong style="color: #A78BFA;">{track_id_val}</strong>
@@ -188,20 +177,18 @@ def render_human_readable_event_card(evt: dict):
                     <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Current Status:</span>
                     <strong style="color: #F87171;">{raw_status}</strong>
                 </div>
-
                 {'<div><span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">AI Detection Confidence:</span><strong style="color: #34D399;">' + conf_pct_str + '</strong></div>' if has_real_conf else ''}
                 <div>
                     <span style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Severity Rating:</span>
                     <strong style="color: #F8FAFC;">{severity_str}</strong>
                 </div>
-
                 <div style="grid-column: span 2; background: rgba(30, 41, 59, 0.6); padding: 10px 14px; border-radius: 8px; margin-top: 4px;">
                     <span style="color: #60A5FA; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; display: block;">Why this matters:</span>
                     <span style="color: #CBD5E1; font-size: 0.82rem;">{why_it_matters}</span>
                 </div>
             </div>
         </div>
-        """,
+        """),
         unsafe_allow_html=True
     )
 
@@ -225,25 +212,25 @@ def render_human_readable_telemetry_card(tel: dict):
     disp = tel.get("pixel_displacement_px", 3.5)
 
     st.markdown(
-        f"""
+        textwrap.dedent(f"""
         <div style="background: #0F172A; border: 1px solid #334155; border-radius: 10px; padding: 16px; margin-top: 10px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <h4 style="color: #38BDF8; margin: 0;">⚡ Onboard AI Hardware Telemetry Summary</h4>
-                <span style="background: rgba(52, 211, 153, 0.2); color: #34D399; border: 1px solid #34D399; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">🟢 REAL PROFILING</span>
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; color: #CBD5E1; font-size: 0.85rem;">
-                <div><b>Detecting Bus:</b> {bus_id} ({route_id})</div>
-                <div><b>Frame Index:</b> #{frame_num}</div>
-                <div><b>Measured Processing Speed:</b> {fps} FPS</div>
-                <div><b>Hardware Latency:</b> {latency} ms</div>
-                <div><b>GPS Location:</b> {gps}</div>
-                <div><b>Active Tracked Vehicles:</b> {active_veh}</div>
-                <div><b>Active Pedestrians:</b> {active_ped}</div>
-                <div><b>Traffic Density Index:</b> {tdi}</div>
-                <div style="grid-column: span 2;"><b>Movement Analytics:</b> {disp} px/frame (Pixel Displacement)</div>
-            </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h4 style="color: #38BDF8; margin: 0;">⚡ Onboard AI Hardware Telemetry Summary</h4>
+        <span style="background: rgba(52, 211, 153, 0.2); color: #34D399; border: 1px solid #34D399; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">🟢 REAL PROFILING</span>
         </div>
-        """,
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; color: #CBD5E1; font-size: 0.85rem;">
+        <div><b>Detecting Bus:</b> {bus_id} ({route_id})</div>
+        <div><b>Frame Index:</b> #{frame_num}</div>
+        <div><b>Measured Processing Speed:</b> {fps} FPS</div>
+        <div><b>Hardware Latency:</b> {latency} ms</div>
+        <div><b>GPS Location:</b> {gps}</div>
+        <div><b>Active Tracked Vehicles:</b> {active_veh}</div>
+        <div><b>Active Pedestrians:</b> {active_ped}</div>
+        <div><b>Traffic Density Index:</b> {tdi}</div>
+        <div style="grid-column: span 2;"><b>Movement Analytics:</b> {disp} px/frame (Pixel Displacement)</div>
+        </div>
+        </div>
+        """),
         unsafe_allow_html=True
     )
 

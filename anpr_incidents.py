@@ -101,41 +101,25 @@ def render_anpr_incidents(raw_events: list):
     ANPR / OCR Module — Phase 9 Real AI Verified Capability.
     """
     st.markdown(
-        textwrap.dedent("""
-        <div style="
-            background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
-            border: 2px solid #34D399;
-            border-radius: 14px;
-            padding: 22px;
-            margin-bottom: 24px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
-        ">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <div>
-                    <h2 style="color: #F8FAFC; margin: 0; font-weight: 900; font-size: 1.5rem;">
-                        🚔 Rash Driving & Vehicle Identification (Phase 9 Real AI Verified)
-                    </h2>
-                    <p style="color: #CBD5E1; font-size: 0.88rem; margin: 4px 0 0 0;">
-                        <b>Purpose:</b> Real-time YOLOv8 license plate detection, EasyOCR plate recognition, multi-frame temporal validation, and human officer review.
-                    </p>
-                </div>
-                <span style="background: rgba(52, 211, 153, 0.2); color: #34D399; border: 1px solid #34D399; padding: 6px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 800;">
-                    🟢 REAL AI — Dedicated YOLO Plate Model + EasyOCR
-                </span>
-            </div>
-
-            <div style="background: rgba(15, 23, 42, 0.6); padding: 12px 16px; border-radius: 8px; font-size: 0.85rem; color: #CBD5E1; margin-top: 10px;">
-                <b>Verified Capabilities:</b>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px;">
-                    <div>• Dedicated license plate detection (license_plate_yolov8n.pt)</div>
-                    <div>• Real EasyOCR plate character extraction</div>
-                    <div>• Temporal multi-frame OCR agreement validation</div>
-                    <div>• Risky driving behavior image-space analysis</div>
-                    <div style="grid-column: span 2;">• Human officer decision workflow (AI-generated alert requiring human review)</div>
-                </div>
-            </div>
-        </div>
-        """),
+        """<div style="background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%); border: 2px solid #34D399; border-radius: 14px; padding: 22px; margin-bottom: 24px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+<div>
+<h2 style="color: #F8FAFC; margin: 0; font-weight: 900; font-size: 1.5rem;">🚔 Rash Driving & Vehicle Identification (Phase 9 Real AI Verified)</h2>
+<p style="color: #CBD5E1; font-size: 0.88rem; margin: 4px 0 0 0;"><b>Purpose:</b> Real-time YOLOv8 license plate detection, EasyOCR plate recognition, multi-frame temporal validation, and human officer review.</p>
+</div>
+<span style="background: rgba(52, 211, 153, 0.2); color: #34D399; border: 1px solid #34D399; padding: 6px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 800;">🟢 REAL AI — Dedicated YOLO Plate Model + EasyOCR</span>
+</div>
+<div style="background: rgba(15, 23, 42, 0.6); padding: 12px 16px; border-radius: 8px; font-size: 0.85rem; color: #CBD5E1; margin-top: 10px;">
+<b>Verified Capabilities:</b>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px;">
+<div>• Dedicated license plate detection (license_plate_yolov8n.pt)</div>
+<div>• Real EasyOCR plate character extraction</div>
+<div>• Temporal multi-frame OCR agreement validation</div>
+<div>• Risky driving behavior image-space analysis</div>
+<div style="grid-column: span 2;">• Human officer decision workflow (AI-generated alert requiring human review)</div>
+</div>
+</div>
+</div>""",
         unsafe_allow_html=True
     )
     
@@ -154,55 +138,38 @@ def render_anpr_incidents(raw_events: list):
 
     # 2. Portal Header & Workflow Visualizer
     st.markdown(
-        textwrap.dedent("""
-        <div style="
-            background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
-            border: 1px solid #334155;
-            border-radius: 14px;
-            padding: 22px;
-            margin-bottom: 24px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
-        ">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <div>
-                    <h2 style="color: #F8FAFC; margin: 0; font-weight: 900; font-size: 1.6rem; letter-spacing: -0.5px;">
-                        🚔 Hit-and-Run & Rash Driving ANPR Portal
-                    </h2>
-                    <p style="color: #94A3B8; font-size: 0.9rem; margin: 4px 0 0 0;">
-                        Visakhapatnam Public Transit Mobile Edge AI Sensing — Automated Plate Recognition & Human-in-the-Loop Sign-off
-                    </p>
-                </div>
-                <span style="background: rgba(245, 158, 11, 0.2); color: #F59E0B; border: 1px solid #F59E0B; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 800;">
-                    🛡️ HUMAN-IN-THE-LOOP ACTIVE
-                </span>
-            </div>
-            <hr style="border: 0; border-top: 1px solid #334155; margin: 14px 0 18px 0;"/>
-
-            <!-- 4-Step Visual Workflow -->
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px;">
-                <div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #475569; border-radius: 10px; padding: 12px; text-align: center;">
-                    <div style="font-size: 1.4rem; margin-bottom: 4px;">📸 STEP 1</div>
-                    <div style="color: #F8FAFC; font-weight: 700; font-size: 0.85rem;">Bus Camera Capture</div>
-                    <div style="color: #94A3B8; font-size: 0.75rem; margin-top: 2px;">Onboard camera captures high-speed trailing vehicle video</div>
-                </div>
-                <div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #475569; border-radius: 10px; padding: 12px; text-align: center;">
-                    <div style="font-size: 1.4rem; margin-bottom: 4px;">🧠 STEP 2</div>
-                    <div style="color: #F8FAFC; font-weight: 700; font-size: 0.85rem;">Vehicle Movement Sensor</div>
-                    <div style="color: #94A3B8; font-size: 0.75rem; margin-top: 2px;">Detects overspeeding, rash maneuvers, or hit-and-run evasion</div>
-                </div>
-                <div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #475569; border-radius: 10px; padding: 12px; text-align: center;">
-                    <div style="font-size: 1.4rem; margin-bottom: 4px;">🔤 STEP 3</div>
-                    <div style="color: #F8FAFC; font-weight: 700; font-size: 0.85rem;">License Plate Capture</div>
-                    <div style="color: #94A3B8; font-size: 0.75rem; margin-top: 2px;">Extracts vehicle registration plate number</div>
-                </div>
-                <div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #F59E0B; border-radius: 10px; padding: 12px; text-align: center; background: rgba(245, 158, 11, 0.1);">
-                    <div style="font-size: 1.4rem; margin-bottom: 4px;">👮 STEP 4</div>
-                    <div style="color: #FBBF24; font-weight: 800; font-size: 0.85rem;">Officer Verification</div>
-                    <div style="color: #CBD5E1; font-size: 0.75rem; margin-top: 2px;">Authorized officer reviews keyframe evidence before confirming incident</div>
-                </div>
-            </div>
-        </div>
-        """),
+        """<div style="background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%); border: 1px solid #334155; border-radius: 14px; padding: 22px; margin-bottom: 24px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+<div>
+<h2 style="color: #F8FAFC; margin: 0; font-weight: 900; font-size: 1.6rem; letter-spacing: -0.5px;">🚔 Hit-and-Run & Rash Driving ANPR Portal</h2>
+<p style="color: #94A3B8; font-size: 0.9rem; margin: 4px 0 0 0;">Visakhapatnam Public Transit Mobile Edge AI Sensing — Automated Plate Recognition & Human-in-the-Loop Sign-off</p>
+</div>
+<span style="background: rgba(245, 158, 11, 0.2); color: #F59E0B; border: 1px solid #F59E0B; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 800;">🛡️ HUMAN-IN-THE-LOOP ACTIVE</span>
+</div>
+<hr style="border: 0; border-top: 1px solid #334155; margin: 14px 0 18px 0;"/>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px;">
+<div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #475569; border-radius: 10px; padding: 12px; text-align: center;">
+<div style="font-size: 1.4rem; margin-bottom: 4px;">📸 STEP 1</div>
+<div style="color: #F8FAFC; font-weight: 700; font-size: 0.85rem;">Bus Camera Capture</div>
+<div style="color: #94A3B8; font-size: 0.75rem; margin-top: 2px;">Onboard camera captures high-speed trailing vehicle video</div>
+</div>
+<div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #475569; border-radius: 10px; padding: 12px; text-align: center;">
+<div style="font-size: 1.4rem; margin-bottom: 4px;">🧠 STEP 2</div>
+<div style="color: #F8FAFC; font-weight: 700; font-size: 0.85rem;">Vehicle Movement Sensor</div>
+<div style="color: #94A3B8; font-size: 0.75rem; margin-top: 2px;">Detects overspeeding, rash maneuvers, or hit-and-run evasion</div>
+</div>
+<div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #475569; border-radius: 10px; padding: 12px; text-align: center;">
+<div style="font-size: 1.4rem; margin-bottom: 4px;">🔤 STEP 3</div>
+<div style="color: #F8FAFC; font-weight: 700; font-size: 0.85rem;">License Plate Capture</div>
+<div style="color: #94A3B8; font-size: 0.75rem; margin-top: 2px;">Extracts vehicle registration plate number</div>
+</div>
+<div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #F59E0B; border-radius: 10px; padding: 12px; text-align: center; background: rgba(245, 158, 11, 0.1);">
+<div style="font-size: 1.4rem; margin-bottom: 4px;">👮 STEP 4</div>
+<div style="color: #FBBF24; font-weight: 800; font-size: 0.85rem;">Officer Verification</div>
+<div style="color: #CBD5E1; font-size: 0.75rem; margin-top: 2px;">Authorized officer reviews keyframe evidence before confirming incident</div>
+</div>
+</div>
+</div>""",
         unsafe_allow_html=True
     )
 
@@ -293,56 +260,23 @@ def render_anpr_incidents(raw_events: list):
         with st.container():
             # Header Row with Indian License Plate Graphic
             st.markdown(
-                textwrap.dedent(f"""
-                <div style="
-                    background: #1E293B;
-                    border: 1px solid #334155;
-                    border-radius: 12px 12px 0 0;
-                    padding: 14px 18px;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                ">
-                    <div style="display: flex; align-items: center; gap: 14px;">
-                        <!-- Authentic Indian License Plate UI Badge -->
-                        <div style="
-                            background: #FACC15;
-                            color: #0F172A;
-                            border: 2px solid #000;
-                            border-radius: 6px;
-                            padding: 4px 12px;
-                            font-family: 'Courier New', monospace;
-                            font-weight: 900;
-                            font-size: 1.1rem;
-                            letter-spacing: 2px;
-                            display: flex;
-                            align-items: center;
-                            gap: 8px;
-                            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-                        ">
-                            <span style="background: #1D4ED8; color: #FFF; font-size: 0.65rem; padding: 2px 4px; border-radius: 3px;">IND</span>
-                            {plate}
-                        </div>
-                        <div>
-                            <span style="color: #F8FAFC; font-weight: 800; font-size: 1rem;">Incident #{idx+1}: {evt.get('details', '').split('.')[0]}</span>
-                            <div style="color: #94A3B8; font-size: 0.78rem;">ID: <code>{eid}</code> | Sensing Unit: <b>{evt.get('bus_id', 'BUS')}</b> ({evt.get('route_id', 'ROUTE')})</div>
-                        </div>
-                    </div>
-                    <div>
-                        <span style="
-                            background: {'rgba(52, 211, 153, 0.2)' if status_state == 'verified' else ('rgba(248, 113, 113, 0.2)' if status_state == 'flagged' else 'rgba(245, 158, 11, 0.2)')};
-                            color: {'#34D399' if status_state == 'verified' else ('#F87171' if status_state == 'flagged' else '#F59E0B')};
-                            border: 1px solid {'#34D399' if status_state == 'verified' else ('#F87171' if status_state == 'flagged' else '#F59E0B')};
-                            font-size: 0.8rem;
-                            font-weight: 800;
-                            padding: 4px 10px;
-                            border-radius: 6px;
-                        ">
-                            {'✅ VERIFIED & DISPATCHED' if status_state == 'verified' else ('⚠️ FLAGGED LOW CONFIDENCE' if status_state == 'flagged' else '⏳ PENDING OFFICER REVIEW')}
-                        </span>
-                    </div>
-                </div>
-                """),
+                f"""<div style="background: #1E293B; border: 1px solid #334155; border-radius: 12px 12px 0 0; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center;">
+<div style="display: flex; align-items: center; gap: 14px;">
+<div style="background: #FACC15; color: #0F172A; border: 2px solid #000; border-radius: 6px; padding: 4px 12px; font-family: 'Courier New', monospace; font-weight: 900; font-size: 1.1rem; letter-spacing: 2px; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);">
+<span style="background: #1D4ED8; color: #FFF; font-size: 0.65rem; padding: 2px 4px; border-radius: 3px;">IND</span>
+{plate}
+</div>
+<div>
+<span style="color: #F8FAFC; font-weight: 800; font-size: 1rem;">Incident #{idx+1}: {evt.get('details', '').split('.')[0]}</span>
+<div style="color: #94A3B8; font-size: 0.78rem;">ID: <code>{eid}</code> | Sensing Unit: <b>{evt.get('bus_id', 'BUS')}</b> ({evt.get('route_id', 'ROUTE')})</div>
+</div>
+</div>
+<div>
+<span style="background: {'rgba(52, 211, 153, 0.2)' if status_state == 'verified' else ('rgba(248, 113, 113, 0.2)' if status_state == 'flagged' else 'rgba(245, 158, 11, 0.2)')}; color: {'#34D399' if status_state == 'verified' else ('#F87171' if status_state == 'flagged' else '#F59E0B')}; border: 1px solid {'#34D399' if status_state == 'verified' else ('#F87171' if status_state == 'flagged' else '#F59E0B')}; font-size: 0.8rem; font-weight: 800; padding: 4px 10px; border-radius: 6px;">
+{'✅ VERIFIED & DISPATCHED' if status_state == 'verified' else ('⚠️ FLAGGED LOW CONFIDENCE' if status_state == 'flagged' else '⏳ PENDING OFFICER REVIEW')}
+</span>
+</div>
+</div>""",
                 unsafe_allow_html=True
             )
 
@@ -358,37 +292,26 @@ def render_anpr_incidents(raw_events: list):
 
             with c_details:
                 st.markdown(
-                    textwrap.dedent(f"""
-                    <div style="
-                        background: #0F172A;
-                        border: 1px solid #334155;
-                        border-radius: 0 0 12px 12px;
-                        padding: 16px;
-                    ">
-                        <!-- Key Telemetry Cards -->
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
-                            <div style="background: #1E293B; border: 1px solid #334155; border-radius: 8px; padding: 10px;">
-                                <div style="color: #94A3B8; font-size: 0.75rem; text-transform: uppercase; font-weight: 700;">OCR Plate Match</div>
-                                <div style="color: #34D399; font-size: 1.2rem; font-weight: 900;">{ocr_conf}% Match</div>
-                                <div style="color: #CBD5E1; font-size: 0.75rem;">Confidence Score</div>
-                            </div>
-                            <div style="background: #1E293B; border: 1px solid #F87171; border-radius: 8px; padding: 10px;">
-                                <div style="color: #F87171; font-size: 0.75rem; text-transform: uppercase; font-weight: 700;">Pixel Motion Delta</div>
-                                <div style="color: #F87171; font-size: 1.2rem; font-weight: 900;">{anpr.get('speed_delta_kmh', '+25 px/frame')}</div>
-                                <div style="color: #CBD5E1; font-size: 0.75rem;">Above Motion Baseline</div>
-                            </div>
-                        </div>
-
-                        <!-- Incident Details Table -->
-                        <div style="font-size: 0.85rem; color: #CBD5E1; line-height: 1.7;">
-                            • <b>Vehicle Type:</b> <span style="color:#F8FAFC; font-weight:700;">{anpr.get('vehicle_type', 'Passenger Vehicle')}</span><br/>
-                            • <b>Recorded Infraction:</b> <span style="color:#F59E0B; font-weight:700;">{evt.get('details', '')}</span><br/>
-                            • <b>Transit Corridor:</b> {evt.get('route_id', 'ROUTE')} (Visakhapatnam Transit Network)<br/>
-                            • <b>AI Detection Severity:</b> <span style="color:#F87171; font-weight:800; text-transform:uppercase;">{evt.get('severity', 'HIGH')}</span>
-                        </div>
-
-                        <hr style="border: 0; border-top: 1px solid #334155; margin: 14px 0 12px 0;"/>
-                    """),
+                    f"""<div style="background: #0F172A; border: 1px solid #334155; border-radius: 0 0 12px 12px; padding: 16px;">
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
+<div style="background: #1E293B; border: 1px solid #334155; border-radius: 8px; padding: 10px;">
+<div style="color: #94A3B8; font-size: 0.75rem; text-transform: uppercase; font-weight: 700;">OCR Plate Match</div>
+<div style="color: #34D399; font-size: 1.2rem; font-weight: 900;">{ocr_conf}% Match</div>
+<div style="color: #CBD5E1; font-size: 0.75rem;">Confidence Score</div>
+</div>
+<div style="background: #1E293B; border: 1px solid #F87171; border-radius: 8px; padding: 10px;">
+<div style="color: #F87171; font-size: 0.75rem; text-transform: uppercase; font-weight: 700;">Pixel Motion Delta</div>
+<div style="color: #F87171; font-size: 1.2rem; font-weight: 900;">{anpr.get('speed_delta_kmh', '+25 px/frame')}</div>
+<div style="color: #CBD5E1; font-size: 0.75rem;">Above Motion Baseline</div>
+</div>
+</div>
+<div style="font-size: 0.85rem; color: #CBD5E1; line-height: 1.7;">
+• <b>Vehicle Type:</b> <span style="color:#F8FAFC; font-weight:700;">{anpr.get('vehicle_type', 'Passenger Vehicle')}</span><br/>
+• <b>Recorded Infraction:</b> <span style="color:#F59E0B; font-weight:700;">{evt.get('details', '')}</span><br/>
+• <b>Transit Corridor:</b> {evt.get('route_id', 'ROUTE')} (Visakhapatnam Transit Network)<br/>
+• <b>AI Detection Severity:</b> <span style="color:#F87171; font-weight:800; text-transform:uppercase;">{evt.get('severity', 'HIGH')}</span>
+</div>
+<hr style="border: 0; border-top: 1px solid #334155; margin: 14px 0 12px 0;"/>""",
                     unsafe_allow_html=True
                 )
 

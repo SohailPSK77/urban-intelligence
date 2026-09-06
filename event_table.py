@@ -21,14 +21,10 @@ def render_event_table(raw_events: list, persistent_issues: list):
     Onboard AI Telemetry Logs & Hardware Performance Metrics, and human-readable event information cards.
     """
     st.markdown(
-        """
-        <div style="background: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 18px; margin-bottom: 20px;">
-            <h3 style="color: #F8FAFC; margin: 0 0 4px 0; font-weight: 800;">📋 Urban Intelligence Data Logs & Event Inspector</h3>
-            <p style="color: #94A3B8; font-size: 0.85rem; margin: 0;">
-                Inspect compact geotagged edge events, fused persistent issue records, real-time onboard AI hardware telemetry logs, and event information.
-            </p>
-        </div>
-        """,
+        """<div style="background: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 18px; margin-bottom: 20px;">
+<h3 style="color: #F8FAFC; margin: 0 0 4px 0; font-weight: 800;">📋 Urban Intelligence Data Logs & Event Inspector</h3>
+<p style="color: #94A3B8; font-size: 0.85rem; margin: 0;">Inspect compact geotagged edge events, fused persistent issue records, real-time onboard AI hardware telemetry logs, and event information.</p>
+</div>""",
         unsafe_allow_html=True
     )
 

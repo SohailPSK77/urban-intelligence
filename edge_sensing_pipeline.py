@@ -148,50 +148,32 @@ def render_edge_sensing_pipeline():
 
     # 2. Header Banner & SIH Mantra Pipeline Bar
     st.markdown(
-        """
-        <div style="
-            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-            border: 1px solid #3B82F6;
-            border-radius: 14px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
-        ">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <div>
-                    <h2 style="color: #F8FAFC; margin: 0; font-weight: 900; font-size: 1.5rem;">
-                        📡 Mobile Urban Sensing Unit (Edge Sensing Engine)
-                    </h2>
-                    <p style="color: #94A3B8; font-size: 0.88rem; margin: 4px 0 0 0;">
-                        Public transit buses operate as moving AI sensing units. Onboard processors process camera streams locally and emit lightweight geotagged event records.
-                    </p>
-                </div>
-                <span style="background: rgba(59, 130, 246, 0.2); color: #60A5FA; border: 1px solid #3B82F6; padding: 6px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 800;">
-                    ⚡ EDGE COMPUTING ACTIVE
-                </span>
-            </div>
-
-            <!-- 8-Step SIH Pipeline Visual Workflow Bar -->
-            <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; border-radius: 10px; padding: 14px; margin-top: 10px;">
-                <h5 style="color: #60A5FA; margin: 0 0 8px 0; font-size: 0.9rem;">🚍 How the Bus Becomes an Urban Sensor:</h5>
-                <div style="display: flex; justify-content: space-between; align-items: center; text-align: center; font-size: 0.78rem; font-weight: 800; overflow-x: auto; gap: 4px;">
-                    <div style="color: #60A5FA; flex: 1;">👁️ 1. See<br><span style="font-size:0.68rem; color:#CBD5E1; font-weight:400;">Bus camera observes the road</span></div>
-                    <div style="color: #475569;">➔</div>
-                    <div style="color: #FBBF24; flex: 1;">🧠 2. Understand<br><span style="font-size:0.68rem; color:#CBD5E1; font-weight:400;">AI detects vehicles & hazards</span></div>
-                    <div style="color: #475569;">➔</div>
-                    <div style="color: #F87171; flex: 1;">📍 3. Locate<br><span style="font-size:0.68rem; color:#CBD5E1; font-weight:400;">System associates GPS location</span></div>
-                    <div style="color: #475569;">➔</div>
-                    <div style="color: #A78BFA; flex: 1;">📡 4. Share<br><span style="font-size:0.68rem; color:#CBD5E1; font-weight:400;">Important event data sent</span></div>
-                    <div style="color: #475569;">➔</div>
-                    <div style="color: #EC4899; flex: 1;">🧪 5. Combine<br><span style="font-size:0.68rem; color:#CBD5E1; font-weight:400;">Multi-bus data compared</span></div>
-                    <div style="color: #475569;">➔</div>
-                    <div style="color: #38BDF8; flex: 1;">🗺️ 6. Visualize<br><span style="font-size:0.68rem; color:#CBD5E1; font-weight:400;">Issues mapped on city GIS</span></div>
-                    <div style="color: #475569;">➔</div>
-                    <div style="color: #10B981; flex: 1;">⚡ 7. Decide<br><span style="font-size:0.68rem; color:#CBD5E1; font-weight:400;">Officials prioritize maintenance</span></div>
-                </div>
-            </div>
-        </div>
-        """,
+        """<div style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); border: 1px solid #3B82F6; border-radius: 14px; padding: 20px; margin-bottom: 20px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+<div>
+<h2 style="color: #F8FAFC; margin: 0; font-weight: 900; font-size: 1.5rem;">📡 Mobile Urban Sensing Unit (Edge Sensing Engine)</h2>
+<p style="color: #94A3B8; font-size: 0.88rem; margin: 4px 0 0 0;">Public transit buses operate as moving AI sensing units. Onboard processors process camera streams locally and emit lightweight geotagged event records.</p>
+</div>
+<span style="background: rgba(59, 130, 246, 0.2); color: #60A5FA; border: 1px solid #3B82F6; padding: 6px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 800;">⚡ EDGE COMPUTING ACTIVE</span>
+</div>
+<div style="background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; border-radius: 10px; padding: 14px; margin-top: 10px;">
+<h5 style="color: #60A5FA; margin: 0 0 8px 0; font-size: 0.9rem;">🚍 How the Bus Becomes an Urban Sensor:</h5>
+<div style="display: flex; justify-content: space-between; align-items: center; text-align: center; font-size: 0.78rem; font-weight: 800; overflow-x: auto; gap: 4px;">
+<div style="color: #60A5FA; flex: 1;">👁️ 1. See<br><span style="font-size:0.68rem; color:#CBD5E1; font-weight:400;">Bus camera observes the road</span></div>
+<div style="color: #475569;">➔</div>
+<div style="color: #FBBF24; flex: 1;">🧠 2. Understand<br><span style="font-size:0.68rem; color:#CBD5E1; font-weight:400;">AI detects vehicles & hazards</span></div>
+<div style="color: #475569;">➔</div>
+<div style="color: #F87171; flex: 1;">📍 3. Locate<br><span style="font-size:0.68rem; color:#CBD5E1; font-weight:400;">System associates GPS location</span></div>
+<div style="color: #475569;">➔</div>
+<div style="color: #A78BFA; flex: 1;">📡 4. Share<br><span style="font-size:0.68rem; color:#CBD5E1; font-weight:400;">Important event data sent</span></div>
+<div style="color: #475569;">➔</div>
+<div style="color: #EC4899; flex: 1;">🧪 5. Combine<br><span style="font-size:0.68rem; color:#CBD5E1; font-weight:400;">Multi-bus data compared</span></div>
+<div style="color: #475569;">➔</div>
+<div style="color: #38BDF8; flex: 1;">🗺️ 6. Visualize<br><span style="font-size:0.68rem; color:#CBD5E1; font-weight:400;">Issues mapped on city GIS</span></div>
+<div style="color: #475569;">➔</div>
+<div style="color: #10B981; flex: 1;">⚡ 7. Decide<br><span style="font-size:0.68rem; color:#CBD5E1; font-weight:400;">Officials prioritize maintenance</span></div>
+</div>
+</div>""",
         unsafe_allow_html=True
     )
 
@@ -316,24 +298,21 @@ def render_edge_sensing_pipeline():
             st.markdown("#### 🧠 Onboard Edge AI Sensor Metrics")
 
             st.markdown(
-                f"""
-                <div style="background: #0F172A; border: 1px solid #334155; border-radius: 10px; padding: 14px; margin-bottom: 14px;">
-                    <div style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Vehicle & Traffic Sensing System</div>
-                    <div style="color: #60A5FA; font-size: 1.1rem; font-weight: 900;">AI Vehicle & Movement Tracker</div>
-                    <div style="color: #CBD5E1; font-size: 0.78rem; margin-top: 4px;">
-                        Processing Speed: <b>{telemetry.get('measured_fps', 12.1)} FPS</b> | Response Time: <b>{telemetry.get('latency_ms', 82.0)} ms</b>
-                    </div>
-                </div>
-
-                <div style="background: #0F172A; border: 1px solid #10B981; border-radius: 10px; padding: 14px; margin-bottom: 14px;">
-                    <div style="color: #34D399; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Corridor Hazard Detection System</div>
-                    <div style="color: #34D399; font-size: 1.1rem; font-weight: 900;">{r_type.replace('_', ' ').title()} Detector</div>
-                    <div style="color: #CBD5E1; font-size: 0.78rem; margin-top: 4px;">
-                        Primary Hazard Monitored: <b>{r_type.replace('_', ' ').title()}</b><br/>
-                        Severity Method: <b>Visual Area Ratio Assessment</b>
-                    </div>
-                </div>
-                """,
+                f"""<div style="background: #0F172A; border: 1px solid #334155; border-radius: 10px; padding: 14px; margin-bottom: 14px;">
+<div style="color: #94A3B8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Vehicle & Traffic Sensing System</div>
+<div style="color: #60A5FA; font-size: 1.1rem; font-weight: 900;">AI Vehicle & Movement Tracker</div>
+<div style="color: #CBD5E1; font-size: 0.78rem; margin-top: 4px;">
+Processing Speed: <b>{telemetry.get('measured_fps', 12.1)} FPS</b> | Response Time: <b>{telemetry.get('latency_ms', 82.0)} ms</b>
+</div>
+</div>
+<div style="background: #0F172A; border: 1px solid #10B981; border-radius: 10px; padding: 14px; margin-bottom: 14px;">
+<div style="color: #34D399; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Corridor Hazard Detection System</div>
+<div style="color: #34D399; font-size: 1.1rem; font-weight: 900;">{r_type.replace('_', ' ').title()} Detector</div>
+<div style="color: #CBD5E1; font-size: 0.78rem; margin-top: 4px;">
+Primary Hazard Monitored: <b>{r_type.replace('_', ' ').title()}</b><br/>
+Severity Method: <b>Visual Area Ratio Assessment</b>
+</div>
+</div>""",
                 unsafe_allow_html=True
             )
 
@@ -429,20 +408,18 @@ def render_edge_sensing_pipeline():
 
         with c_guide:
             st.markdown(
-                """
-                <div style="background: #0F172A; border: 1px solid #334155; border-radius: 10px; padding: 16px;">
-                    <h5 style="color: #F8FAFC; margin: 0 0 10px 0;">🔍 What Each Information Field Means</h5>
-                    <div style="font-size: 0.82rem; color: #CBD5E1; line-height: 1.7;">
-                        • <b>Event ID</b>: Unique tracking identifier for this frame event.<br/>
-                        • <b>Detection Method</b>: Distinguishes <b>Real AI Inference</b> from <b>Simulated Demo</b>.<br/>
-                        • <b>Tracking ID</b>: Persistent defect ID (e.g. <code>GARBAGE-TRK-01</code> / <code>POTHOLE-TRK-01</code>) across consecutive frames.<br/>
-                        • <b>Detection Confidence</b>: Model vision confidence score (0% to 100%).<br/>
-                        • <b>Location & GPS Source</b>: City corridor name & NMEA/Simulated GPS location.<br/>
-                        • <b>Video Time</b>: Frame timestamp position within the video stream timeline.<br/>
-                        • <b>Status</b>: Current operational state (e.g., Needs Review / Needs Maintenance).
-                    </div>
-                </div>
-                """,
+                """<div style="background: #0F172A; border: 1px solid #334155; border-radius: 10px; padding: 16px;">
+<h5 style="color: #F8FAFC; margin: 0 0 10px 0;">What Each Information Field Means</h5>
+<div style="font-size: 0.82rem; color: #CBD5E1; line-height: 1.7;">
+- <b>Event ID</b>: Unique tracking identifier for this frame event.<br/>
+- <b>Detection Method</b>: Distinguishes <b>Real AI Inference</b> from <b>Simulated Demo</b>.<br/>
+- <b>Tracking ID</b>: Persistent defect ID (e.g. <code>GARBAGE-TRK-01</code> / <code>POTHOLE-TRK-01</code>) across consecutive frames.<br/>
+- <b>Detection Confidence</b>: Model vision confidence score (0% to 100%).<br/>
+- <b>Location & GPS Source</b>: City corridor name & NMEA/Simulated GPS location.<br/>
+- <b>Video Time</b>: Frame timestamp position within the video stream timeline.<br/>
+- <b>Status</b>: Current operational state (e.g., Needs Review / Needs Maintenance).
+</div>
+</div>""",
                 unsafe_allow_html=True
             )
 
@@ -455,31 +432,23 @@ def render_edge_sensing_pipeline():
         col_bw1, col_bw2 = st.columns(2)
         with col_bw1:
             st.markdown(
-                """
-                <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid #EF4444; border-radius: 10px; padding: 16px;">
-                    <h4 style="color: #F87171; margin: 0 0 6px 0;">❌ Traditional Approach: Raw Video Streaming</h4>
-                    <p style="color: #CBD5E1; font-size: 0.85rem; margin: 0;">
-                        Streaming raw 4K/1080p video from 500 city buses to central servers consumes massive 4G/5G bandwidth (~50,000 KB/s per bus), leading to huge cellular SIM data bills and server congestion.
-                    </p>
-                    <hr style="border: 0; border-top: 1px solid #EF4444; margin: 12px 0;"/>
-                    <div style="color: #F87171; font-weight: 800; font-size: 1.2rem;">Bandwidth Needed: ~25.0 GB / hr / bus</div>
-                </div>
-                """,
+                """<div style="background: rgba(239, 68, 68, 0.1); border: 1px solid #EF4444; border-radius: 10px; padding: 16px;">
+<h4 style="color: #F87171; margin: 0 0 6px 0;">❌ Traditional Approach: Raw Video Streaming</h4>
+<p style="color: #CBD5E1; font-size: 0.85rem; margin: 0;">Streaming raw 4K/1080p video from 500 city buses to central servers consumes massive 4G/5G bandwidth (~50,000 KB/s per bus), leading to huge cellular SIM data bills and server congestion.</p>
+<hr style="border: 0; border-top: 1px solid #EF4444; margin: 12px 0;"/>
+<div style="color: #F87171; font-weight: 800; font-size: 1.2rem;">Bandwidth Needed: ~25.0 GB / hr / bus</div>
+</div>""",
                 unsafe_allow_html=True
             )
 
         with col_bw2:
             st.markdown(
-                """
-                <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid #10B981; border-radius: 10px; padding: 16px;">
-                    <h4 style="color: #34D399; margin: 0 0 6px 0;">🟢 SIH26124 Approach: Edge AI Event Transmission</h4>
-                    <p style="color: #CBD5E1; font-size: 0.85rem; margin: 0;">
-                        Bus onboard AI processes video locally and transmits only 1.2 KB compact JSON event payloads when infractions or road defects are detected.
-                    </p>
-                    <hr style="border: 0; border-top: 1px solid #10B981; margin: 12px 0;"/>
-                    <div style="color: #34D399; font-weight: 800; font-size: 1.2rem;">Data Bandwidth Saved: 99.98%</div>
-                </div>
-                """,
+                """<div style="background: rgba(16, 185, 129, 0.1); border: 1px solid #10B981; border-radius: 10px; padding: 16px;">
+<h4 style="color: #34D399; margin: 0 0 6px 0;">🟢 SIH26124 Approach: Edge AI Event Transmission</h4>
+<p style="color: #CBD5E1; font-size: 0.85rem; margin: 0;">Bus onboard AI processes video locally and transmits only 1.2 KB compact JSON event payloads when infractions or road defects are detected.</p>
+<hr style="border: 0; border-top: 1px solid #10B981; margin: 12px 0;"/>
+<div style="color: #34D399; font-weight: 800; font-size: 1.2rem;">Data Bandwidth Saved: 99.98%</div>
+</div>""",
                 unsafe_allow_html=True
             )
 
